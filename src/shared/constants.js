@@ -8,6 +8,12 @@ DSWA.APP = {
   version: '0.1.0',
 };
 
+DSWA.SKILLS = {
+  // 内容脚本直读技能包用；skills/* 需在 manifest.web_accessible_resources 中暴露
+  indexUrl: chrome.runtime.getURL('skills/index.json'),
+  baseUrl: chrome.runtime.getURL('skills'),
+};
+
 DSWA.UI = {
   containerId: 'dswa-root',
   storageKey: 'dswa-preferences',

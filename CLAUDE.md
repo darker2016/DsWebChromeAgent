@@ -46,10 +46,8 @@
 
 ```
 content script（浮动按钮 + 选择面板 + DSWA.adapter 注入输入框）
-        │ 消息 DSWA_GET_INDEX / DSWA_GET_SKILL_TEXT
-        ▼
-background service worker（技能数据层：读取并缓存技能包）
-        │ fetch(chrome.runtime.getURL(...))
+        │ 直读优先 fetch(chrome.runtime.getURL(...))
+        │ 失败转消息 DSWA_GET_INDEX / DSWA_GET_SKILL_TEXT（background 兜底）
         ▼
 skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/*
 ```
