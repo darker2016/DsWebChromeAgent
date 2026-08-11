@@ -46,12 +46,12 @@
 
 ```
 content script（浮动按钮 + 选择面板 + DSWA.adapter 注入输入框）
-        │ fetch(chrome.runtime.getURL('skills/index.json'))
+        │ 消息 DSWA_GET_INDEX / DSWA_GET_SKILL_TEXT
         ▼
-skills/index.json（注册表，build-index.js 生成）
-        │
-        ├── groups/<id>/  专家团（sync-skills.sh 从 WorkBuddySkillGroups 同步）
-        └── singles/<id>/ 单体技能（fetch-single-skills.sh 从 GitHub 收集）
+background service worker（技能数据层：读取并缓存技能包）
+        │ fetch(chrome.runtime.getURL(...))
+        ▼
+skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/*
 ```
 
 完整架构、数据流、消息协议见 `docs/architecture.md`。

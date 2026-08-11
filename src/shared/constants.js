@@ -8,12 +8,6 @@ DSWA.APP = {
   version: '0.1.0',
 };
 
-DSWA.SKILLS = {
-  // skills/index.json 与 skills/ 下的文件需在 manifest.web_accessible_resources 中暴露
-  indexUrl: chrome.runtime.getURL('skills/index.json'),
-  baseUrl: chrome.runtime.getURL('skills'),
-};
-
 DSWA.UI = {
   containerId: 'dswa-root',
   storageKey: 'dswa-preferences',

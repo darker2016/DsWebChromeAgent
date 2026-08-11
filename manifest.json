@@ -26,11 +26,5 @@
       ],
       "run_at": "document_idle"
     }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["skills/*", "src/*"],
-      "matches": ["https://chat.deepseek.com/*"]
-    }
   ]
 }
