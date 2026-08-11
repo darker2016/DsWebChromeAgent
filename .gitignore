@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+
+# 构建产物（当前无打包流程，预留）
+dist/
+*.crx
+*.zip
+
+# 编辑器 / 系统
+*.log
+.idea/
+.vscode/

@@ -1,0 +1,21 @@
+# 单体技能（single）清单：一行一个技能目录名
+# 默认来源：https://github.com/anthropics/skills（官方开源示例技能）
+# 修改此清单后运行：bash scripts/fetch-single-skills.sh && node scripts/build-index.js
+# 备选来源：anthropics/skills 之外，可参考 superpowers、awesome-claude-code 等社区集合（见 docs/skill-system.md）
+docx
+pdf
+pptx
+xlsx
+frontend-design
+webapp-testing
+canvas-design
+brand-guidelines
+doc-coauthoring
+internal-comms
+skill-creator
+claude-api
+mcp-builder
+slack-gif-creator
+theme-factory
+web-artifacts-builder
+algorithmic-art

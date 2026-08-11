@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="popup.css" />
+  <title>Deepseek Web Agent</title>
+</head>
+<body>
+  <div class="popup">
+    <header>
+      <h1>Deepseek Web Agent</h1>
+      <span class="version" id="version">-</span>
+    </header>
+    <div class="counts">
+      <div class="count">
+        <b id="count-group">-</b>
+        <span>专家团</span>
+      </div>
+      <div class="count">
+        <b id="count-single">-</b>
+        <span>单体技能</span>
+      </div>
+    </div>
+    <p class="hint">
+      打开 chat.deepseek.com，点击页面右下角「技能」按钮，选择技能并注入输入框。
+    </p>
+    <button class="btn" id="open-options" type="button">打开设置</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

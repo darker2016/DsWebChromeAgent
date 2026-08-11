@@ -1,0 +1,14 @@
+# 专家团（group）精选清单：一行一个 WorkBuddySkillGroups 目录名
+# 修改此清单后运行：bash scripts/sync-skills.sh && node scripts/build-index.js
+investment-masters-skills
+ai-content-creator-skills
+mvp-dev-skills
+chatlaw-skills
+tax-compliance-skills
+video-gen-skills
+seo-content-skills
+hr-operations-skills
+sales-battle-skills
+gpt-researcher-skills
+design-engine-skills
+invoice-verify-skills

@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Deepseek Web Agent",
+  "version": "0.1.0",
+  "description": "在 AI 对话页面中选择并注入专家团 / 单体技能，让对话 AI 扮演专家主理人。",
+  "minimum_chrome_version": "110",
+  "permissions": ["storage"],
+  "host_permissions": ["https://chat.deepseek.com/*"],
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+  "action": {
+    "default_title": "Deepseek Web Agent",
+    "default_popup": "src/popup/popup.html"
+  },
+  "options_page": "src/options/options.html",
+  "content_scripts": [
+    {
+      "matches": ["https://chat.deepseek.com/*"],
+      "css": ["src/content/content.css"],
+      "js": [
+        "src/shared/constants.js",
+        "src/shared/skill-index.js",
+        "src/content/deepseek-adapter.js",
+        "src/content/skill-picker.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["skills/*", "src/*"],
+      "matches": ["https://chat.deepseek.com/*"]
+    }
+  ]
+}
