@@ -11,12 +11,16 @@ DSWA.skillIndex = (() => {
     const res = await chrome.runtime.sendMessage({ type: 'DSWA_GET_INDEX' });
     if (!res || !res.ok) throw new Error((res && res.error) || '无法获取技能索引');
     cache = res.index;
+    console.log('[DSWA] 索引已加载, skills:', Array.isArray(cache.skills) ? cache.skills.length : '缺失');
     return cache;
   }
 
   // 列出技能；type 可选 'group' | 'single'，省略则全部
   async function list(type) {
     const idx = await load();
+    if (!idx || !Array.isArray(idx.skills)) {
+      throw new Error('技能索引格式异常（skills 数组缺失）');
+    }
     return type ? idx.skills.filter(s => s.type === type) : idx.skills;
   }
 

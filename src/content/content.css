@@ -116,6 +116,12 @@
   background: #fff;
 }
 
+.dswa-status {
+  padding: 2px 12px 6px;
+  font-size: 11px;
+  color: #9ca3af;
+}
+
 .dswa-cats {
   display: flex;
   flex-wrap: wrap;

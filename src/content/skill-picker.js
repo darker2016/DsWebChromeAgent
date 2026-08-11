@@ -32,6 +32,7 @@ DSWA.picker = (() => {
           <button class="dswa-tab" data-type="single" type="button">单体技能</button>
         </div>
         <input class="dswa-search" type="search" placeholder="搜索技能名称 / 描述…" autocomplete="off" />
+        <div class="dswa-status"></div>
         <div class="dswa-cats"></div>
         <div class="dswa-list">
           <div class="dswa-loading">加载技能清单…</div>
@@ -62,6 +63,7 @@ DSWA.picker = (() => {
       renderTabs();
       renderCats();
       renderList();
+      renderStatus();
     });
   }
 
@@ -77,6 +79,7 @@ DSWA.picker = (() => {
         state.loaded = true;
         renderCats();
         renderList();
+        renderStatus();
       } catch (err) {
         renderList('加载技能清单失败：' + err.message);
       }
@@ -119,6 +122,14 @@ DSWA.picker = (() => {
     }
   }
 
+  function renderStatus() {
+    const el = root.querySelector('.dswa-status');
+    if (!state.loaded) { el.textContent = ''; return; }
+    const groups = state.skills.filter(s => s.type === DSWA.TYPES.group).length;
+    const singles = state.skills.filter(s => s.type === DSWA.TYPES.single).length;
+    el.textContent = '已加载 ' + state.skills.length + ' 个技能（专家团 ' + groups + ' / 单体 ' + singles + '）';
+  }
+
   function visibleSkills() {
     return state.skills.filter(s => {
       if (s.type !== state.type) return false;
@@ -139,7 +150,7 @@ DSWA.picker = (() => {
     if (!items.length) {
       const empty = document.createElement('div');
       empty.className = 'dswa-empty';
-      empty.textContent = '没有匹配的技能';
+      empty.textContent = '没有匹配的技能（已加载 ' + state.skills.length + ' 个）';
       list.appendChild(empty);
       return;
     }

@@ -11,6 +11,7 @@ async function fetchIndex() {
   const res = await fetch(chrome.runtime.getURL(INDEX_PATH));
   if (!res.ok) throw new Error('索引 HTTP ' + res.status);
   indexCache = await res.json();
+  console.log('[DSWA] 索引已获取, skills:', Array.isArray(indexCache.skills) ? indexCache.skills.length : '缺失');
   return indexCache;
 }
 
