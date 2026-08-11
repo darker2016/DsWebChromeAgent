@@ -13,36 +13,36 @@
       "category": "内容创作",
       "description": "AI 内容创作专家团主理人（司远 · 创意制片人）。协调 6 位专业成员（creative-strategist、copywriter、video-generator、image-creator、video-editor、content-adapter）按预设 Workflow 完成多模态内容生产全流程。   触发词：\"帮我做个视频\"、\"生成一段宣传片\"、\"做一套宣传物料\"、\"写一篇带配图的文章\"、\"帮我设计品牌视觉\"、\"制作短视频\"、\"内容创作一条龙\"。   路由逻辑：单一维度任务走单 Agent 直调；综合性内容需求走对应预设 Workflow。",
       "lead": {
-        "path": "ai-content-creator-skills/team-lead/SKILL.md",
+        "path": "groups/ai-content-creator-skills/team-lead/SKILL.md",
         "name": "ai-content-creator-team-lead"
       },
       "members": [
         {
-          "path": "ai-content-creator-skills/ai-content-production/SKILL.md",
+          "path": "groups/ai-content-creator-skills/ai-content-production/SKILL.md",
           "name": "ai-content-production"
         },
         {
-          "path": "ai-content-creator-skills/content-adapter/SKILL.md",
+          "path": "groups/ai-content-creator-skills/content-adapter/SKILL.md",
           "name": "content-adapter"
         },
         {
-          "path": "ai-content-creator-skills/copywriter/SKILL.md",
+          "path": "groups/ai-content-creator-skills/copywriter/SKILL.md",
           "name": "copywriter"
         },
         {
-          "path": "ai-content-creator-skills/creative-strategist/SKILL.md",
+          "path": "groups/ai-content-creator-skills/creative-strategist/SKILL.md",
           "name": "creative-strategist"
         },
         {
-          "path": "ai-content-creator-skills/image-creator/SKILL.md",
+          "path": "groups/ai-content-creator-skills/image-creator/SKILL.md",
           "name": "image-creator"
         },
         {
-          "path": "ai-content-creator-skills/video-editor/SKILL.md",
+          "path": "groups/ai-content-creator-skills/video-editor/SKILL.md",
           "name": "video-editor"
         },
         {
-          "path": "ai-content-creator-skills/video-generator/SKILL.md",
+          "path": "groups/ai-content-creator-skills/video-generator/SKILL.md",
           "name": "video-generator"
         }
       ],
@@ -64,28 +64,28 @@
       "category": "法律",
       "description": "中文法律咨询团主理人（林律师）。协调 5 位专业成员（info-intake、legal-research、case-precedent、advice-writer、report-finalizer）按 4 阶段 SOP（案情采集 → 法律研究 → 综合建议 → 咨询报告终稿）完成高质量中文法律咨询。当用户提出民事、婚姻家庭、合同、劳动、侵权等高频法律咨询需求时触发。输出专业的 MD 格式法律咨询报告并落盘到本地。",
       "lead": {
-        "path": "chatlaw-skills/chatlaw-team-lead.md",
+        "path": "groups/chatlaw-skills/chatlaw-team-lead.md",
         "name": "chatlaw-team-lead"
       },
       "members": [
         {
-          "path": "chatlaw-skills/chatlaw-advice-writer.md",
+          "path": "groups/chatlaw-skills/chatlaw-advice-writer.md",
           "name": "chatlaw-advice-writer"
         },
         {
-          "path": "chatlaw-skills/chatlaw-case-precedent.md",
+          "path": "groups/chatlaw-skills/chatlaw-case-precedent.md",
           "name": "chatlaw-case-precedent"
         },
         {
-          "path": "chatlaw-skills/chatlaw-info-intake.md",
+          "path": "groups/chatlaw-skills/chatlaw-info-intake.md",
           "name": "chatlaw-info-intake"
         },
         {
-          "path": "chatlaw-skills/chatlaw-legal-research.md",
+          "path": "groups/chatlaw-skills/chatlaw-legal-research.md",
           "name": "chatlaw-legal-research"
         },
         {
-          "path": "chatlaw-skills/chatlaw-report-finalizer.md",
+          "path": "groups/chatlaw-skills/chatlaw-report-finalizer.md",
           "name": "chatlaw-report-finalizer"
         }
       ],
@@ -99,28 +99,28 @@
       "category": "设计",
       "description": "设计原型专家团主理人 - 编排 5 位专业角色按 SOP 完成品牌级设计产出",
       "lead": {
-        "path": "design-engine-skills/design-engine-team-lead/SKILL.md",
+        "path": "groups/design-engine-skills/design-engine-team-lead/SKILL.md",
         "name": "design-engine-team-lead"
       },
       "members": [
         {
-          "path": "design-engine-skills/critique-reviewer/SKILL.md",
+          "path": "groups/design-engine-skills/critique-reviewer/SKILL.md",
           "name": "critique-reviewer"
         },
         {
-          "path": "design-engine-skills/design-system-expert/SKILL.md",
+          "path": "groups/design-engine-skills/design-system-expert/SKILL.md",
           "name": "design-system-expert"
         },
         {
-          "path": "design-engine-skills/discovery-analyst/SKILL.md",
+          "path": "groups/design-engine-skills/discovery-analyst/SKILL.md",
           "name": "discovery-analyst"
         },
         {
-          "path": "design-engine-skills/export-specialist/SKILL.md",
+          "path": "groups/design-engine-skills/export-specialist/SKILL.md",
           "name": "export-specialist"
         },
         {
-          "path": "design-engine-skills/prototype-builder/SKILL.md",
+          "path": "groups/design-engine-skills/prototype-builder/SKILL.md",
           "name": "prototype-builder"
         }
       ],
@@ -134,32 +134,32 @@
       "category": "研究/教育",
       "description": "深度研究团队主理人（顾全之 · 研究主编）。带领 6 位专业成员按 5 阶段工作流（初调→规划→逐章深研→报告组装→发布输出）完成系统性深度研究，输出带多源引用的专业研究报告。   触发词：深度研究、行业研究、竞品分析、市场调研、学术综述、出一份研究报告、专题研究、趋势分析、技术综述。",
       "lead": {
-        "path": "gpt-researcher-skills/research-chief-editor/SKILL.md",
+        "path": "groups/gpt-researcher-skills/research-chief-editor/SKILL.md",
         "name": "research-chief-editor"
       },
       "members": [
         {
-          "path": "gpt-researcher-skills/draft-reviewer/SKILL.md",
+          "path": "groups/gpt-researcher-skills/draft-reviewer/SKILL.md",
           "name": "draft-reviewer"
         },
         {
-          "path": "gpt-researcher-skills/draft-reviser/SKILL.md",
+          "path": "groups/gpt-researcher-skills/draft-reviser/SKILL.md",
           "name": "draft-reviser"
         },
         {
-          "path": "gpt-researcher-skills/report-publisher/SKILL.md",
+          "path": "groups/gpt-researcher-skills/report-publisher/SKILL.md",
           "name": "report-publisher"
         },
         {
-          "path": "gpt-researcher-skills/report-writer/SKILL.md",
+          "path": "groups/gpt-researcher-skills/report-writer/SKILL.md",
           "name": "report-writer"
         },
         {
-          "path": "gpt-researcher-skills/research-planner/SKILL.md",
+          "path": "groups/gpt-researcher-skills/research-planner/SKILL.md",
           "name": "research-planner"
         },
         {
-          "path": "gpt-researcher-skills/topic-researcher/SKILL.md",
+          "path": "groups/gpt-researcher-skills/topic-researcher/SKILL.md",
           "name": "topic-researcher"
         }
       ],
@@ -183,28 +183,28 @@
       "category": "运营/HR",
       "description": "HR 运营团队主理人（任贤达 · 人事总监）。调度猎达（招聘专家）、薪析（薪酬分析师）、组织（组织发展顾问）、入职（HR 运营专员）4 位专业成员，按标准工作流完成招聘全流程、绩效评估周期、组织规划、人员分析报告和政策咨询等任务。   触发词：招聘、面试方案、Offer 起草、入职计划、薪酬分析、薪酬对标、组织规划、Headcount、绩效评估、人员分析、政策咨询、   招人、招聘流程、要招一个人、发 Offer、入职引导、新人入职、工资给多少、组织结构、团队扩张、绩效、考核、HP、晋升、   校准、自评、人员报告、流失分析、留存率、考勤政策、年假、休假规定。",
       "lead": {
-        "path": "hr-operations-skills/hr-director-SKILL.md",
+        "path": "groups/hr-operations-skills/hr-director-SKILL.md",
         "name": "hr-director"
       },
       "members": [
         {
-          "path": "hr-operations-skills/hr-comp-analyst-SKILL.md",
+          "path": "groups/hr-operations-skills/hr-comp-analyst-SKILL.md",
           "name": "hr-comp-analyst-SKILL"
         },
         {
-          "path": "hr-operations-skills/hr-hr-ops-SKILL.md",
+          "path": "groups/hr-operations-skills/hr-hr-ops-SKILL.md",
           "name": "hr-hr-ops-SKILL"
         },
         {
-          "path": "hr-operations-skills/hr-org-developer-SKILL.md",
+          "path": "groups/hr-operations-skills/hr-org-developer-SKILL.md",
           "name": "hr-org-developer-SKILL"
         },
         {
-          "path": "hr-operations-skills/hr-playbook-SKILL.md",
+          "path": "groups/hr-operations-skills/hr-playbook-SKILL.md",
           "name": "hr-playbook-SKILL"
         },
         {
-          "path": "hr-operations-skills/hr-recruiter-SKILL.md",
+          "path": "groups/hr-operations-skills/hr-recruiter-SKILL.md",
           "name": "hr-recruiter-SKILL"
         }
       ],
@@ -230,80 +230,80 @@
       "category": "投资分析",
       "description": "AI 对冲基金投资大师专家团主理人（贺知衡 · 基金经理）。调度 21 位专业成员（13 位传奇投资哲学家 + 6 位专业分析师 + 2 位管理层）按 SOP 完成系统性投资分析。   触发词：投资分析、股票分析、大师分析、巴菲特怎么看、多大师分析、对冲基金分析、   投资大师、价值投资、成长投资、全面分析、深度投资分析、基金分析、   该不该买、值不值得投资、投资价值、帮我分析、多维度分析、全方位评估。",
       "lead": {
-        "path": "investment-masters-skills/hedge-fund-lead/SKILL.md",
+        "path": "groups/investment-masters-skills/hedge-fund-lead/SKILL.md",
         "name": "hedge-fund-lead"
       },
       "members": [
         {
-          "path": "investment-masters-skills/ben-graham/SKILL.md",
+          "path": "groups/investment-masters-skills/ben-graham/SKILL.md",
           "name": "ben-graham"
         },
         {
-          "path": "investment-masters-skills/black-swan-prophet/SKILL.md",
+          "path": "groups/investment-masters-skills/black-swan-prophet/SKILL.md",
           "name": "black-swan-prophet"
         },
         {
-          "path": "investment-masters-skills/charlie-munger/SKILL.md",
+          "path": "groups/investment-masters-skills/charlie-munger/SKILL.md",
           "name": "charlie-munger"
         },
         {
-          "path": "investment-masters-skills/dean-of-valuation/SKILL.md",
+          "path": "groups/investment-masters-skills/dean-of-valuation/SKILL.md",
           "name": "dean-of-valuation"
         },
         {
-          "path": "investment-masters-skills/dhandho-master/SKILL.md",
+          "path": "groups/investment-masters-skills/dhandho-master/SKILL.md",
           "name": "dhandho-master"
         },
         {
-          "path": "investment-masters-skills/growth-analyst/SKILL.md",
+          "path": "groups/investment-masters-skills/growth-analyst/SKILL.md",
           "name": "growth-analyst"
         },
         {
-          "path": "investment-masters-skills/macro-king/SKILL.md",
+          "path": "groups/investment-masters-skills/macro-king/SKILL.md",
           "name": "macro-king"
         },
         {
-          "path": "investment-masters-skills/magellan-captain/SKILL.md",
+          "path": "groups/investment-masters-skills/magellan-captain/SKILL.md",
           "name": "magellan-captain"
         },
         {
-          "path": "investment-masters-skills/mama-wood/SKILL.md",
+          "path": "groups/investment-masters-skills/mama-wood/SKILL.md",
           "name": "mama-wood"
         },
         {
-          "path": "investment-masters-skills/news-sentiment-analyst/SKILL.md",
+          "path": "groups/investment-masters-skills/news-sentiment-analyst/SKILL.md",
           "name": "news-sentiment-analyst"
         },
         {
-          "path": "investment-masters-skills/oracle-of-omaha/SKILL.md",
+          "path": "groups/investment-masters-skills/oracle-of-omaha/SKILL.md",
           "name": "oracle-of-omaha"
         },
         {
-          "path": "investment-masters-skills/phil-fisher/SKILL.md",
+          "path": "groups/investment-masters-skills/phil-fisher/SKILL.md",
           "name": "phil-fisher"
         },
         {
-          "path": "investment-masters-skills/portfolio-manager/SKILL.md",
+          "path": "groups/investment-masters-skills/portfolio-manager/SKILL.md",
           "name": "portfolio-manager"
         },
         {
-          "path": "investment-masters-skills/rakesh-jhunjhunwala/SKILL.md",
+          "path": "groups/investment-masters-skills/rakesh-jhunjhunwala/SKILL.md",
           "name": "rakesh-jhunjhunwala"
         },
         {
-          "path": "investment-masters-skills/technicals-analyst/SKILL.md",
+          "path": "groups/investment-masters-skills/technicals-analyst/SKILL.md",
           "name": "technicals-analyst"
         },
         {
-          "path": "investment-masters-skills/the-big-short/SKILL.md",
+          "path": "groups/investment-masters-skills/the-big-short/SKILL.md",
           "name": "the-big-short"
         },
         {
-          "path": "investment-masters-skills/valuation-analyst/SKILL.md",
+          "path": "groups/investment-masters-skills/valuation-analyst/SKILL.md",
           "name": "valuation-analyst"
         },
         {
-          "path": "investment-masters-skills/wall-street-activist/SKILL.md",
+          "path": "groups/investment-masters-skills/wall-street-activist/SKILL.md",
           "name": "wall-street-activist"
         }
       ],
@@ -324,28 +324,28 @@
       "category": "财税",
       "description": "Intelligent invoice chief expert responsible for task intake, orchestration, dispatch, and result consolidation.",
       "lead": {
-        "path": "invoice-verify-skills/agents/invoice-verify-team-lead.md",
+        "path": "groups/invoice-verify-skills/agents/invoice-verify-team-lead.md",
         "name": "invoice-verify-team-lead"
       },
       "members": [
         {
-          "path": "invoice-verify-skills/SKILL.md",
+          "path": "groups/invoice-verify-skills/SKILL.md",
           "name": "skill"
         },
         {
-          "path": "invoice-verify-skills/agents/archivist.md",
+          "path": "groups/invoice-verify-skills/agents/archivist.md",
           "name": "archivist"
         },
         {
-          "path": "invoice-verify-skills/agents/counterparty-risk-analyst.md",
+          "path": "groups/invoice-verify-skills/agents/counterparty-risk-analyst.md",
           "name": "counterparty-risk-analyst"
         },
         {
-          "path": "invoice-verify-skills/agents/invoice-sorter.md",
+          "path": "groups/invoice-verify-skills/agents/invoice-sorter.md",
           "name": "invoice-sorter"
         },
         {
-          "path": "invoice-verify-skills/agents/invoice-verifier.md",
+          "path": "groups/invoice-verify-skills/agents/invoice-verifier.md",
           "name": "invoice-verifier"
         }
       ],
@@ -359,36 +359,36 @@
       "category": "开发",
       "description": "MVP 开发专家团主理人（郝交付 · 交付总监）。统筹 7 位专家（PM/设计/架构/前端/后端/QA/运维）按 6 阶段 SOP 完成 MVP 产品交付。   触发词：\"帮我做个产品\"、\"MVP 开发\"、\"快速搭一个\"、\"做个 demo\"、\"从零搭建\"、\"做一个 XX 应用\"、\"帮我开发 XX\"。   路由逻辑：综合性产品开发任务走完整 SOP；单一维度需求（仅设计/仅后端/仅部署）可直调对应专家。",
       "lead": {
-        "path": "mvp-dev-skills/mvp-dev-team-lead/SKILL.md",
+        "path": "groups/mvp-dev-skills/mvp-dev-team-lead/SKILL.md",
         "name": "mvp-dev-team-lead"
       },
       "members": [
         {
-          "path": "mvp-dev-skills/architect/SKILL.md",
+          "path": "groups/mvp-dev-skills/architect/SKILL.md",
           "name": "architect"
         },
         {
-          "path": "mvp-dev-skills/backend/SKILL.md",
+          "path": "groups/mvp-dev-skills/backend/SKILL.md",
           "name": "backend"
         },
         {
-          "path": "mvp-dev-skills/designer/SKILL.md",
+          "path": "groups/mvp-dev-skills/designer/SKILL.md",
           "name": "designer"
         },
         {
-          "path": "mvp-dev-skills/devops/SKILL.md",
+          "path": "groups/mvp-dev-skills/devops/SKILL.md",
           "name": "devops"
         },
         {
-          "path": "mvp-dev-skills/frontend/SKILL.md",
+          "path": "groups/mvp-dev-skills/frontend/SKILL.md",
           "name": "frontend"
         },
         {
-          "path": "mvp-dev-skills/pm/SKILL.md",
+          "path": "groups/mvp-dev-skills/pm/SKILL.md",
           "name": "pm"
         },
         {
-          "path": "mvp-dev-skills/qa/SKILL.md",
+          "path": "groups/mvp-dev-skills/qa/SKILL.md",
           "name": "qa"
         }
       ],
@@ -410,28 +410,28 @@
       "category": "销售",
       "description": "赢单顾问（应必达）调度客户研究 / 竞品情报 / 外联策略 / 销售预测 4 位专家。",
       "lead": {
-        "path": "sales-battle-skills/skill-sales-director-2026-07-04.md",
+        "path": "groups/sales-battle-skills/skill-sales-director-2026-07-04.md",
         "name": "skill-sales-director-2026-07-04"
       },
       "members": [
         {
-          "path": "sales-battle-skills/skill-account-researcher-2026-07-04.md",
+          "path": "groups/sales-battle-skills/skill-account-researcher-2026-07-04.md",
           "name": "skill-account-researcher-2026-07-04"
         },
         {
-          "path": "sales-battle-skills/skill-competitive-intel-2026-07-04.md",
+          "path": "groups/sales-battle-skills/skill-competitive-intel-2026-07-04.md",
           "name": "skill-competitive-intel-2026-07-04"
         },
         {
-          "path": "sales-battle-skills/skill-outreach-strategist-2026-07-04.md",
+          "path": "groups/sales-battle-skills/skill-outreach-strategist-2026-07-04.md",
           "name": "skill-outreach-strategist-2026-07-04"
         },
         {
-          "path": "sales-battle-skills/skill-sales-forecaster-2026-07-04.md",
+          "path": "groups/sales-battle-skills/skill-sales-forecaster-2026-07-04.md",
           "name": "skill-sales-forecaster-2026-07-04"
         },
         {
-          "path": "sales-battle-skills/skill-sales-playbook-2026-07-04.md",
+          "path": "groups/sales-battle-skills/skill-sales-playbook-2026-07-04.md",
           "name": "skill-sales-playbook-2026-07-04"
         }
       ],
@@ -445,24 +445,24 @@
       "category": "内容创作",
       "description": "SEO 内容营销团队编排与工作流管理工具。提供完整的 5 阶段 SOP、团队协作机制、   成员调度规范和最终报告整合标准。   触发词：团队编排、工作流管理、SOP、任务调度、内容发布、团队协作",
       "lead": {
-        "path": "seo-content-skills/team-orchestration/SKILL.md",
+        "path": "groups/seo-content-skills/team-orchestration/SKILL.md",
         "name": "team-orchestration"
       },
       "members": [
         {
-          "path": "seo-content-skills/content-editing/SKILL.md",
+          "path": "groups/seo-content-skills/content-editing/SKILL.md",
           "name": "content-editing"
         },
         {
-          "path": "seo-content-skills/distribution-strategy/SKILL.md",
+          "path": "groups/seo-content-skills/distribution-strategy/SKILL.md",
           "name": "distribution-strategy"
         },
         {
-          "path": "seo-content-skills/keyword-research/SKILL.md",
+          "path": "groups/seo-content-skills/keyword-research/SKILL.md",
           "name": "keyword-research"
         },
         {
-          "path": "seo-content-skills/link-strategy/SKILL.md",
+          "path": "groups/seo-content-skills/link-strategy/SKILL.md",
           "name": "link-strategy"
         }
       ],
@@ -483,32 +483,32 @@
       "category": "财税",
       "description": "财税合规专家团主理人（钱合规）——协调 5 位专业成员按标准工作流完成企业财税合规全链路管理",
       "lead": {
-        "path": "tax-compliance-skills/tax-compliance-team-lead/SKILL.md",
+        "path": "groups/tax-compliance-skills/tax-compliance-team-lead/SKILL.md",
         "name": "tax-compliance-team-lead"
       },
       "members": [
         {
-          "path": "tax-compliance-skills/compliance-auditor/SKILL.md",
+          "path": "groups/tax-compliance-skills/compliance-auditor/SKILL.md",
           "name": "compliance-auditor"
         },
         {
-          "path": "tax-compliance-skills/financial-reporter/SKILL.md",
+          "path": "groups/tax-compliance-skills/financial-reporter/SKILL.md",
           "name": "financial-reporter"
         },
         {
-          "path": "tax-compliance-skills/invoice-processor/SKILL.md",
+          "path": "groups/tax-compliance-skills/invoice-processor/SKILL.md",
           "name": "invoice-processor"
         },
         {
-          "path": "tax-compliance-skills/tax-compliance-engine/SKILL.md",
+          "path": "groups/tax-compliance-skills/tax-compliance-engine/SKILL.md",
           "name": "tax-compliance-engine"
         },
         {
-          "path": "tax-compliance-skills/tax-filing-specialist/SKILL.md",
+          "path": "groups/tax-compliance-skills/tax-filing-specialist/SKILL.md",
           "name": "tax-filing-specialist"
         },
         {
-          "path": "tax-compliance-skills/voucher-accountant/SKILL.md",
+          "path": "groups/tax-compliance-skills/voucher-accountant/SKILL.md",
           "name": "voucher-accountant"
         }
       ],
@@ -522,28 +522,28 @@
       "category": "内容创作",
       "description": "",
       "lead": {
-        "path": "video-gen-skills/video-team-lead-skill.md",
+        "path": "groups/video-gen-skills/video-team-lead-skill.md",
         "name": "video-team-lead-skill"
       },
       "members": [
         {
-          "path": "video-gen-skills/00-team-playbook.md",
+          "path": "groups/video-gen-skills/00-team-playbook.md",
           "name": "00-team-playbook"
         },
         {
-          "path": "video-gen-skills/01-video-team-lead-skill.md",
+          "path": "groups/video-gen-skills/01-video-team-lead-skill.md",
           "name": "01-video-team-lead-skill"
         },
         {
-          "path": "video-gen-skills/02-ling-reader-collector-skill.md",
+          "path": "groups/video-gen-skills/02-ling-reader-collector-skill.md",
           "name": "02-ling-reader-collector-skill"
         },
         {
-          "path": "video-gen-skills/03-ling-planner-scriptwriter-skill.md",
+          "path": "groups/video-gen-skills/03-ling-planner-scriptwriter-skill.md",
           "name": "03-ling-planner-scriptwriter-skill"
         },
         {
-          "path": "video-gen-skills/04-ling-producer-renderer-skill.md",
+          "path": "groups/video-gen-skills/04-ling-producer-renderer-skill.md",
           "name": "04-ling-producer-renderer-skill"
         }
       ],
@@ -557,7 +557,7 @@
       "category": "创意",
       "description": "Creating algorithmic art using p5.js with seeded randomness and interactive parameter exploration. Use this when users request creating art using code, generative art, algorithmic art, flow fields, or particle systems. Create original algorithmic art rather than copying existing artists' work to avoid copyright violations.",
       "lead": {
-        "path": "algorithmic-art/SKILL.md",
+        "path": "singles/algorithmic-art/SKILL.md",
         "name": "algorithmic-art"
       },
       "members": [],
@@ -571,7 +571,7 @@
       "category": "设计/品牌",
       "description": "Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.",
       "lead": {
-        "path": "brand-guidelines/SKILL.md",
+        "path": "singles/brand-guidelines/SKILL.md",
         "name": "brand-guidelines"
       },
       "members": [],
@@ -585,7 +585,7 @@
       "category": "设计",
       "description": "Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations.",
       "lead": {
-        "path": "canvas-design/SKILL.md",
+        "path": "singles/canvas-design/SKILL.md",
         "name": "canvas-design"
       },
       "members": [],
@@ -599,7 +599,7 @@
       "category": "开发",
       "description": "Reference for the Claude API / Anthropic SDK — model ids, pricing, params, streaming, tool use, MCP, agents, caching, token counting, model migration.   TRIGGER — read BEFORE opening the target file; don't skip because it \"looks like a one-liner\" — whenever: the prompt names Claude/Anthropic in any form (Claude, Anthropic, Fable, Opus, Sonnet, Haiku, `anthropic`, `@anthropic-ai`, `claude-*`, `us.a…",
       "lead": {
-        "path": "claude-api/SKILL.md",
+        "path": "singles/claude-api/SKILL.md",
         "name": "claude-api"
       },
       "members": [],
@@ -613,7 +613,7 @@
       "category": "文档处理",
       "description": "Guide users through a structured workflow for co-authoring documentation. Use when user wants to write documentation, proposals, technical specs, decision docs, or similar structured content. This workflow helps users efficiently transfer context, refine content through iteration, and verify the doc works for readers. Trigger when user mentions writing docs, creating proposals, drafting specs, or …",
       "lead": {
-        "path": "doc-coauthoring/SKILL.md",
+        "path": "singles/doc-coauthoring/SKILL.md",
         "name": "doc-coauthoring"
       },
       "members": [],
@@ -627,7 +627,7 @@
       "category": "文档处理",
       "description": "Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files) or Word templates (.dotx files). Triggers include: any mention of 'Word doc', 'word document', '.docx', '.dotx', or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .…",
       "lead": {
-        "path": "docx/SKILL.md",
+        "path": "singles/docx/SKILL.md",
         "name": "docx"
       },
       "members": [],
@@ -641,7 +641,7 @@
       "category": "前端/设计",
       "description": "Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.",
       "lead": {
-        "path": "frontend-design/SKILL.md",
+        "path": "singles/frontend-design/SKILL.md",
         "name": "frontend-design"
       },
       "members": [],
@@ -655,7 +655,7 @@
       "category": "沟通/运营",
       "description": "A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).",
       "lead": {
-        "path": "internal-comms/SKILL.md",
+        "path": "singles/internal-comms/SKILL.md",
         "name": "internal-comms"
       },
       "members": [],
@@ -669,7 +669,7 @@
       "category": "开发",
       "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).",
       "lead": {
-        "path": "mcp-builder/SKILL.md",
+        "path": "singles/mcp-builder/SKILL.md",
         "name": "mcp-builder"
       },
       "members": [],
@@ -683,7 +683,7 @@
       "category": "文档处理",
       "description": "Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or…",
       "lead": {
-        "path": "pdf/SKILL.md",
+        "path": "singles/pdf/SKILL.md",
         "name": "pdf"
       },
       "members": [],
@@ -697,7 +697,7 @@
       "category": "文档处理",
       "description": "Use this skill any time a .pptx or .potx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx or .potx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slid…",
       "lead": {
-        "path": "pptx/SKILL.md",
+        "path": "singles/pptx/SKILL.md",
         "name": "pptx"
       },
       "members": [],
@@ -711,7 +711,7 @@
       "category": "技能开发",
       "description": "Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.",
       "lead": {
-        "path": "skill-creator/SKILL.md",
+        "path": "singles/skill-creator/SKILL.md",
         "name": "skill-creator"
       },
       "members": [],
@@ -725,7 +725,7 @@
       "category": "创意",
       "description": "Knowledge and utilities for creating animated GIFs optimized for Slack. Provides constraints, validation tools, and animation concepts. Use when users request animated GIFs for Slack like \"make me a GIF of X doing Y for Slack.\"",
       "lead": {
-        "path": "slack-gif-creator/SKILL.md",
+        "path": "singles/slack-gif-creator/SKILL.md",
         "name": "slack-gif-creator"
       },
       "members": [],
@@ -739,7 +739,7 @@
       "category": "设计",
       "description": "Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.",
       "lead": {
-        "path": "theme-factory/SKILL.md",
+        "path": "singles/theme-factory/SKILL.md",
         "name": "theme-factory"
       },
       "members": [],
@@ -753,7 +753,7 @@
       "category": "前端/设计",
       "description": "Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.",
       "lead": {
-        "path": "web-artifacts-builder/SKILL.md",
+        "path": "singles/web-artifacts-builder/SKILL.md",
         "name": "web-artifacts-builder"
       },
       "members": [],
@@ -767,7 +767,7 @@
       "category": "测试",
       "description": "Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
       "lead": {
-        "path": "webapp-testing/SKILL.md",
+        "path": "singles/webapp-testing/SKILL.md",
         "name": "webapp-testing"
       },
       "members": [],
@@ -781,7 +781,7 @@
       "category": "文档处理",
       "description": "Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .xltx, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger e…",
       "lead": {
-        "path": "xlsx/SKILL.md",
+        "path": "singles/xlsx/SKILL.md",
         "name": "xlsx"
       },
       "members": [],

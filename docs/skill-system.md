@@ -27,8 +27,8 @@
       "name": "investment-masters-skills（AI 投资大师专家团）", // 展示名
       "category": "投资分析",                        // 来自 categories.json，缺省为「未分类」
       "description": "…（截断 400 字）",
-      "lead": { "path": "investment-masters-skills/hedge-fund-lead/SKILL.md", "name": "hedge-fund-lead" },
-      "members": [ { "path": "…/oracle-of-omaha/SKILL.md", "name": "oracle-of-omaha" } ],
+      "lead": { "path": "groups/investment-masters-skills/hedge-fund-lead/SKILL.md", "name": "hedge-fund-lead" },
+      "members": [ { "path": "groups/investment-masters-skills/oracle-of-omaha/SKILL.md", "name": "oracle-of-omaha" } ],
       "member_count": 21,
       "triggers": ["投资分析", "股票分析", "…"]
     }
@@ -47,6 +47,7 @@
 - **group.members**：目录内候选 md（递归，排除 README.md / overview.md，排除 `references|scripts|assets` 子目录），去掉 lead。
 - **group.triggers**：lead description 中「触发词：」之后按 `、，,；` 分隔的项。
 - **single**：目录内最浅的 SKILL.md 的 frontmatter name/description。
+- **path**：lead / members 的 `path` 含类型前缀（`groups/` 或 `singles/`），**相对 `skills/`**，如 `groups/<id>/…/SKILL.md`、`singles/<id>/SKILL.md`。运行时加载为 `skills/` + path。
 - **category**：查 `scripts/categories.json`（id → 分类），未命中记「未分类」并告警。
 
 > 若某专家团的 lead 探测不正确，先检查其 README 是否含 `(主理人)` 标记行；极少数非标准结构（如纯扁平 `01-xxx-skill.md` 组）需人工在 build-index.js 中补充规则并更新本文档。

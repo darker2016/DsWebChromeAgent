@@ -13,6 +13,7 @@
  *   members     = 其余候选 md（排除 README/overview 与 references|scripts|assets 子目录）
  *   triggers    = description 中「触发词：」之后的分隔项
  *   single      = 目录内最浅的 SKILL.md 的 frontmatter name/description
+ *   path        = lead / members 的 path 含类型前缀（groups/ 或 singles/），相对 skills/
  *
  * 用法：node scripts/build-index.js
  * 每次新增/删除技能、或改动同步结果后都要重跑本脚本。
@@ -192,7 +193,7 @@ function buildGroup(dir) {
   const triggers = extractTriggersFromFrontmatter(leadText);
   const members = skillFiles
     .filter(f => f !== leadRel)
-    .map(f => ({ path: id + '/' + f, name: memberName(f) }));
+    .map(f => ({ path: 'groups/' + id + '/' + f, name: memberName(f) }));
   return {
     id,
     type: 'group',
@@ -200,7 +201,7 @@ function buildGroup(dir) {
     category: categories[id] || '未分类',
     description: truncate(description, 400),
     lead: leadRel
-      ? { path: id + '/' + leadRel, name: frontmatter.name || memberName(leadRel) }
+      ? { path: 'groups/' + id + '/' + leadRel, name: frontmatter.name || memberName(leadRel) }
       : null,
     members,
     member_count: members.length + (leadRel ? 1 : 0),
@@ -220,7 +221,7 @@ function buildSingle(dir) {
     name: frontmatter.name || id,
     category: categories[id] || '未分类',
     description: truncate(description, 400),
-    lead: leadRel ? { path: id + '/' + leadRel, name: frontmatter.name || id } : null,
+    lead: leadRel ? { path: 'singles/' + id + '/' + leadRel, name: frontmatter.name || id } : null,
     members: [],
     member_count: 1,
     triggers: extractTriggersFromFrontmatter(text),
