@@ -80,8 +80,13 @@ DSWA.picker = (() => {
         renderCats();
         renderList();
         renderStatus();
+        if (!state.skills.length) {
+          const diag = await DSWA.skillIndex.diagnose().catch(() => '(诊断不可用)');
+          renderList('没有匹配的技能（已加载 0 个）\n\n' + diag);
+        }
       } catch (err) {
-        renderList('加载技能清单失败：' + err.message);
+        const diag = await DSWA.skillIndex.diagnose().catch(() => '(诊断不可用)');
+        renderList('加载技能清单失败：' + err.message + '\n\n' + diag);
       }
     }
   }
@@ -144,7 +149,14 @@ DSWA.picker = (() => {
 
   function renderList(message) {
     const list = root.querySelector('.dswa-list');
-    if (message) { list.innerHTML = ''; list.textContent = message; return; }
+    if (message) {
+      list.innerHTML = '';
+      const msg = document.createElement('div');
+      msg.className = 'dswa-msg';
+      msg.textContent = message;
+      list.appendChild(msg);
+      return;
+    }
     const items = visibleSkills();
     list.innerHTML = '';
     if (!items.length) {

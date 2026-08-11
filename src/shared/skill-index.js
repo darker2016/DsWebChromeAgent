@@ -88,5 +88,38 @@ DSWA.skillIndex = (() => {
     return m ? text.slice(m[0].length).trim() : text.trim();
   }
 
-  return { load, list, find, promptFor, stripFrontmatter };
+  // 自诊断：分别探测直读与 background 两条路径，返回可读结果（定位数据加载问题用）
+  async function diagnose() {
+    const lines = [];
+    try {
+      const res = await withTimeout(fetch(DSWA.SKILLS.indexUrl), 5000, '直读');
+      const text = await res.text();
+      let skills = '解析失败';
+      try {
+        const j = JSON.parse(text);
+        skills = 'skills=' + (Array.isArray(j.skills) ? j.skills.length : '(skills 缺失)');
+      } catch { /* 保持解析失败 */ }
+      lines.push('直读: HTTP ' + res.status + ', 字节=' + text.length + ', ' + skills);
+    } catch (e) {
+      lines.push('直读: 失败 - ' + e.message);
+    }
+    try {
+      const res = await withTimeout(
+        chrome.runtime.sendMessage({ type: 'DSWA_GET_INDEX' }),
+        4000,
+        '消息'
+      );
+      if (res && res.ok) {
+        const n = res.index && Array.isArray(res.index.skills) ? res.index.skills.length : '(skills 缺失)';
+        lines.push('消息: ok, skills=' + n);
+      } else {
+        lines.push('消息: 失败 - ' + ((res && res.error) || '无响应'));
+      }
+    } catch (e) {
+      lines.push('消息: 失败 - ' + e.message);
+    }
+    return lines.join('\n');
+  }
+
+  return { load, list, find, promptFor, stripFrontmatter, diagnose };
 })();
