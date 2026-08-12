@@ -84,21 +84,20 @@ DSWA.picker = (() => {
     const panel = root.querySelector('.dswa-panel');
     if (!panel.hidden) { setPanel(false); return; }
     setPanel(true);
-    if (!state.loaded) {
-      try {
-        state.skills = await DSWA.skillIndex.list();
-        state.loaded = true;
-        renderCats();
-        renderList();
-        renderStatus();
-        if (!state.skills.length) {
-          const diag = await DSWA.skillIndex.diagnose().catch(() => '(诊断不可用)');
-          renderList('没有匹配的技能（已加载 0 个）\n\n' + diag);
-        }
-      } catch (err) {
+    // 每次打开都重新拉取（skill-index 有缓存，很快；用户技能变化后缓存已失效，保证最新）
+    try {
+      state.skills = await DSWA.skillIndex.list();
+      state.loaded = true;
+      renderCats();
+      renderList();
+      renderStatus();
+      if (!state.skills.length) {
         const diag = await DSWA.skillIndex.diagnose().catch(() => '(诊断不可用)');
-        renderList('加载技能清单失败：' + err.message + '\n\n' + diag);
+        renderList('没有匹配的技能（已加载 0 个）\n\n' + diag);
       }
+    } catch (err) {
+      const diag = await DSWA.skillIndex.diagnose().catch(() => '(诊断不可用)');
+      renderList('加载技能清单失败：' + err.message + '\n\n' + diag);
     }
   }
 

@@ -127,6 +127,13 @@ DSWA.skillIndex = (() => {
     return m ? text.slice(m[0].length).trim() : text.trim();
   }
 
+  // 用户技能上传/删除时失效缓存，下次 load 自动合并最新数据
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local' && changes['dswa:user-skills']) {
+      cache = null;
+    }
+  });
+
   // 自诊断：分别探测直读与 background 两条路径，返回可读结果（定位数据加载问题用）
   async function diagnose() {
     const lines = [];
