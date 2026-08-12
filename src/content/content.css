@@ -167,6 +167,26 @@
   word-break: break-all;
 }
 
+.dswa-footer {
+  border-top: 1px solid #f0f0f0;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.dswa-add {
+  background: none;
+  border: none;
+  color: #4f46e5;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 8px;
+}
+
+.dswa-add:hover {
+  color: #4338ca;
+  text-decoration: underline;
+}
+
 .dswa-item {
   display: block;
   width: 100%;

@@ -41,6 +41,9 @@ DSWA.picker = (() => {
         <div class="dswa-list">
           <div class="dswa-loading">加载技能清单…</div>
         </div>
+        <div class="dswa-footer">
+          <button class="dswa-add" type="button">＋ 上传技能（打开设置）</button>
+        </div>
       </div>
       <div class="dswa-toast" hidden></div>
     `;
@@ -52,6 +55,7 @@ DSWA.picker = (() => {
   function bindEvents() {
     root.querySelector('.dswa-fab').addEventListener('click', toggle);
     root.querySelector('.dswa-close').addEventListener('click', () => setPanel(false));
+    root.querySelector('.dswa-add').addEventListener('click', () => chrome.runtime.openOptionsPage());
     root.querySelector('.dswa-search').addEventListener('input', e => {
       state.search = e.target.value.trim().toLowerCase();
       renderList();
