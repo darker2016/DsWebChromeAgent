@@ -35,3 +35,72 @@ h1 {
   color: #6b7280;
   line-height: 1.7;
 }
+
+.card .desc {
+  margin-bottom: 12px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #4f46e5;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #4338ca;
+}
+
+.btn-secondary {
+  background: #eef0ff;
+  color: #4f46e5;
+  border: 1px solid #4f46e5;
+}
+
+.btn-secondary:hover {
+  background: #e0e3ff;
+}
+
+.btn-small {
+  margin-left: 8px;
+  padding: 3px 10px;
+  font-size: 12px;
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn-small:hover {
+  background: #fecaca;
+}
+
+.user-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user-list li {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.user-list li:last-child {
+  border-bottom: none;
+}
+
+.user-list .muted {
+  color: #9ca3af;
+}

@@ -1,6 +1,10 @@
 // 浮动技能选择器：右下角按钮 → 面板（专家团 / 单体技能 双 Tab + 搜索 + 分类过滤）。
 // 点击技能 → 载入对应 SKILL.md → 经 DSWA.adapter 注入聊天输入框。
+// 幂等守卫：手动唤醒（executeScript）可能重复注入本文件，只初始化一次，避免双按钮/双事件。
 globalThis.DSWA = globalThis.DSWA || {};
+
+if (!DSWA._pickerLoaded) {
+DSWA._pickerLoaded = true;
 
 DSWA.picker = (() => {
   const state = {
@@ -229,3 +233,4 @@ DSWA.picker = (() => {
 })();
 
 DSWA.picker.init();
+}

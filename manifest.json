@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
   "name": "Deepseek Web Agent",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "在 AI 对话页面中选择并注入专家团 / 单体技能，让对话 AI 扮演专家主理人。",
   "minimum_chrome_version": "110",
-  "permissions": ["storage"],
-  "host_permissions": ["https://chat.deepseek.com/*"],
+  "permissions": ["storage", "unlimitedStorage", "scripting", "tabs"],
+  "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "src/background/service-worker.js"
   },
@@ -16,12 +16,29 @@
   "options_page": "src/options/options.html",
   "content_scripts": [
     {
-      "matches": ["https://chat.deepseek.com/*"],
+      "matches": [
+        "https://chat.deepseek.com/*",
+        "https://*.moonshot.cn/*",
+        "https://*.doubao.com/*",
+        "https://*.chatgpt.com/*",
+        "https://tongyi.aliyun.com/*",
+        "https://*.tongyi.aliyun.com/*",
+        "https://qianwen.aliyun.com/*",
+        "https://*.qianwen.aliyun.com/*",
+        "https://chatglm.cn/*",
+        "https://*.chatglm.cn/*",
+        "https://yuanbao.tencent.com/*",
+        "https://*.yuanbao.tencent.com/*",
+        "https://yiyan.baidu.com/*",
+        "https://*.yiyan.baidu.com/*"
+      ],
       "css": ["src/content/content.css"],
       "js": [
         "src/shared/constants.js",
+        "src/shared/site-config.js",
+        "src/shared/user-skills.js",
         "src/shared/skill-index.js",
-        "src/content/deepseek-adapter.js",
+        "src/content/site-adapter.js",
         "src/content/skill-picker.js"
       ],
       "run_at": "document_idle"
@@ -30,7 +47,7 @@
   "web_accessible_resources": [
     {
       "resources": ["skills/*"],
-      "matches": ["https://chat.deepseek.com/*"]
+      "matches": ["<all_urls>"]
     }
   ]
 }

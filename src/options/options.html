@@ -9,15 +9,27 @@
 <body>
   <main class="options">
     <h1>Deepseek Web Agent · 设置</h1>
+
     <section class="card">
-      <h2>当前配置</h2>
-      <p>本版本暂无配置项。技能选择在 chat.deepseek.com 页面右下角「技能」按钮中完成。</p>
+      <h2>我的技能（用户自定义）</h2>
+      <p class="desc">上传你自制的技能。单体技能上传单个 .md 文件（需含 frontmatter 的 name/description）；专家团上传整个文件夹（自动识别主理人与成员）。</p>
+      <div class="row">
+        <button class="btn" id="upload-single" type="button">上传单个 .md</button>
+        <button class="btn btn-secondary" id="upload-folder" type="button">上传文件夹</button>
+        <input type="file" id="file-single" accept=".md,.markdown,.txt" hidden />
+        <input type="file" id="file-folder" webkitdirectory hidden />
+      </div>
+      <ul class="user-list" id="user-skill-list">
+        <li class="muted">（暂无用户技能）</li>
+      </ul>
     </section>
+
     <section class="card">
       <h2>关于技能包</h2>
       <p id="skill-summary">正在读取技能清单…</p>
     </section>
   </main>
+  <script src="../shared/user-skills.js"></script>
   <script src="options.js"></script>
 </body>
 </html>

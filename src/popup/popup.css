@@ -75,3 +75,39 @@ h1 {
 .btn:hover {
   background: #4338ca;
 }
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.btn-secondary {
+  margin-top: 8px;
+  background: #f3f4f6;
+  color: #4f46e5;
+  border: 1px solid #4f46e5;
+}
+
+.btn-secondary:hover {
+  background: #eef0ff;
+}
+
+.site {
+  margin: 0 0 14px;
+  padding: 10px;
+  background: #f9fafb;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.site-host {
+  font-weight: 600;
+  color: #1f2329;
+  word-break: break-all;
+}
+
+.site-status {
+  margin-top: 4px;
+  color: #6b7280;
+  line-height: 1.5;
+}

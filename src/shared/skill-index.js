@@ -24,24 +24,53 @@ DSWA.skillIndex = (() => {
     return res;
   }
 
-  // 拉取并缓存技能索引（直读优先，background 兜底）
+  // 拉取并缓存技能索引（直读优先，background 兜底），随后合并用户自定义技能
   async function load() {
     if (cache) return cache;
     try {
       const res = await fetchDirect(DSWA.SKILLS.indexUrl, '技能索引');
       cache = await res.json();
-      return cache;
     } catch (err) {
       console.warn('[DSWA] 直接读取索引失败，转 background：', err.message);
+      const res = await withTimeout(
+        chrome.runtime.sendMessage({ type: 'DSWA_GET_INDEX' }),
+        4000,
+        'background 索引'
+      );
+      if (!res || !res.ok) throw new Error((res && res.error) || '无法获取技能索引');
+      cache = res.index;
     }
-    const res = await withTimeout(
-      chrome.runtime.sendMessage({ type: 'DSWA_GET_INDEX' }),
-      4000,
-      'background 索引'
-    );
-    if (!res || !res.ok) throw new Error((res && res.error) || '无法获取技能索引');
-    cache = res.index;
+    await mergeUserSkills();
     return cache;
+  }
+
+  // 把用户自定义技能（chrome.storage 里的 source:'user'）合并进缓存索引
+  async function mergeUserSkills() {
+    try {
+      const userSkills = await DSWA.userSkills.list();
+      if (userSkills.length) {
+        cache = {
+          ...cache,
+          skills: [
+            ...cache.skills,
+            ...userSkills.map(u => ({
+              id: u.id,
+              type: u.type,
+              source: u.source,
+              name: u.name,
+              category: u.category,
+              description: u.description,
+              lead: u.lead,
+              members: u.members || [],
+              member_count: u.member_count || 1,
+              triggers: u.triggers || [],
+            })),
+          ],
+        };
+      }
+    } catch (e) {
+      console.warn('[DSWA] 读取用户技能失败：', e.message);
+    }
   }
 
   // 列出技能；type 可选 'group' | 'single'，省略则全部
@@ -59,27 +88,37 @@ DSWA.skillIndex = (() => {
     return cache.skills.find(s => s.id === id) || null;
   }
 
-  // 拉取某个技能的引导提示词：group 取 lead SKILL.md，single 取自身 SKILL.md
+  // 拉取某个技能的引导提示词：group 取 lead SKILL.md，single 取自身 SKILL.md。
+  // 注入内容 = 引导模板（DSWA.GUIDE，group/single 不同）+ 技能正文。
   async function promptFor(skill) {
     if (!skill || !skill.lead) throw new Error('技能缺少 lead 文件');
-    const url = DSWA.SKILLS.baseUrl + '/' + skill.lead.path;
-    let text = null;
-    try {
-      const res = await fetchDirect(url, '技能文件');
-      text = await res.text();
-    } catch (err) {
-      console.warn('[DSWA] 直接读取技能文件失败，转 background：', err.message);
+    let body;
+    if (skill.source === 'user') {
+      const raw = await DSWA.userSkills.readFile(skill, skill.lead.path);
+      if (!raw) throw new Error('用户技能缺少文件：' + skill.lead.path);
+      body = stripFrontmatter(raw);
+    } else {
+      const url = DSWA.SKILLS.baseUrl + '/' + skill.lead.path;
+      let text = null;
+      try {
+        const res = await fetchDirect(url, '技能文件');
+        text = await res.text();
+      } catch (err) {
+        console.warn('[DSWA] 直接读取技能文件失败，转 background：', err.message);
+      }
+      if (text === null) {
+        const res = await withTimeout(
+          chrome.runtime.sendMessage({ type: 'DSWA_GET_SKILL_TEXT', path: skill.lead.path }),
+          4000,
+          'background 技能文件'
+        );
+        if (!res || !res.ok) throw new Error((res && res.error) || '无法加载技能文件');
+        text = res.text;
+      }
+      body = stripFrontmatter(text);
     }
-    if (text === null) {
-      const res = await withTimeout(
-        chrome.runtime.sendMessage({ type: 'DSWA_GET_SKILL_TEXT', path: skill.lead.path }),
-        4000,
-        'background 技能文件'
-      );
-      if (!res || !res.ok) throw new Error((res && res.error) || '无法加载技能文件');
-      text = res.text;
-    }
-    return stripFrontmatter(text);
+    const wrap = DSWA.GUIDE[skill.type] || DSWA.GUIDE.single;
+    return wrap(skill.name, body);
   }
 
   // 剥离 YAML frontmatter（--- ... ---），只留正文作为提示词
