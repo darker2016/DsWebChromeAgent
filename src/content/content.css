@@ -50,6 +50,11 @@
   overflow: hidden;
 }
 
+/* 必须让 hidden 属性生效：否则 display:flex 会覆盖它，面板默认就显示 */
+.dswa-panel[hidden] {
+  display: none;
+}
+
 .dswa-header {
   display: flex;
   align-items: center;

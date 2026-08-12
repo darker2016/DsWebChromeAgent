@@ -93,5 +93,12 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   }
 
+  if (msg.type === 'DSWA_OPEN_OPTIONS') {
+    // 内容脚本无法直接 openOptionsPage，由 background 代开设置页
+    chrome.runtime.openOptionsPage();
+    sendResponse({ ok: true });
+    return false;
+  }
+
   return false;
 });

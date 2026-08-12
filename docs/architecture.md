@@ -91,6 +91,7 @@ popup / background / content 之间通过 `chrome.runtime.sendMessage` / `onMess
 | `DSWA_GET_INDEX` | content → bg | 无 | `{ ok, index }` | 技能索引（background 缓存） |
 | `DSWA_GET_SKILL_TEXT` | content → bg | `path`（相对 skills/） | `{ ok, text }` | SKILL.md 文本 |
 | `DSWA_ENABLE_SITE` | popup → bg | `host`, `tabId?` | `{ ok }` | 手动唤醒：注入 + 持久化注册 |
+| `DSWA_OPEN_OPTIONS` | content → bg | 无 | `{ ok }` | 打开设置页（内容脚本无法直接 openOptionsPage，由 background 代开） |
 
 新增消息时，在 `src/background/service-worker.js` 与本文档同步登记。
 

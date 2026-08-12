@@ -55,7 +55,10 @@ DSWA.picker = (() => {
   function bindEvents() {
     root.querySelector('.dswa-fab').addEventListener('click', toggle);
     root.querySelector('.dswa-close').addEventListener('click', () => setPanel(false));
-    root.querySelector('.dswa-add').addEventListener('click', () => chrome.runtime.openOptionsPage());
+    root.querySelector('.dswa-add').addEventListener('click', () => {
+      // 内容脚本不能直接 openOptionsPage，经 background 打开设置页
+      chrome.runtime.sendMessage({ type: 'DSWA_OPEN_OPTIONS' }).catch(() => {});
+    });
     root.querySelector('.dswa-search').addEventListener('input', e => {
       state.search = e.target.value.trim().toLowerCase();
       renderList();
