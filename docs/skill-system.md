@@ -41,10 +41,10 @@
 - **group.name**：README.md 首个 H1；兜底 lead frontmatter.name / 目录名。
 - **group.description**：lead SKILL.md frontmatter.description；兜底 README「## 描述」段。
 - **group.lead 探测顺序**：
-  1. README.md 团队表中标记 `(主理人)` 的那一行，如 `| \`hedge-fund-lead/SKILL.md\` | **(主理人)** |`；
+  1. README.md 团队表中标记 `(主理人)` 的那一行，如 `| \`hedge-fund-lead/SKILL.md\` | **(主理人)** |`（文件名归一化：忽略前导数字序号，如 README 写 `video-team-lead-skill.md` 匹配实际 `01-video-team-lead-skill.md`）；
   2. 候选文件路径含 `lead` / `team-lead`；
   3. 第一个候选文件。
-- **group.members**：目录内候选 md（递归，排除 README.md / overview.md，排除 `references|scripts|assets` 子目录），去掉 lead。
+- **group.members**：目录内候选 md（递归，排除 README.md / overview.md / 含 `playbook` 的文件，排除 `references|scripts|assets` 子目录），去掉 lead。
 - **group.triggers**：lead description 中「触发词：」之后按 `、，,；` 分隔的项。
 - **single**：目录内最浅的 SKILL.md 的 frontmatter name/description。
 - **path**：lead / members 的 `path` 含类型前缀（`groups/` 或 `singles/`），**相对 `skills/`**，如 `groups/<id>/…/SKILL.md`、`singles/<id>/SKILL.md`。运行时加载为 `skills/` + path。

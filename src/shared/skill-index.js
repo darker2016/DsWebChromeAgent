@@ -88,17 +88,14 @@ DSWA.skillIndex = (() => {
     return cache.skills.find(s => s.id === id) || null;
   }
 
-  // 拉取某个技能的引导提示词：group 取 lead SKILL.md，single 取自身 SKILL.md。
-  // 注入内容 = 引导模板（DSWA.GUIDE，group/single 不同）+ 技能正文。
-  async function promptFor(skill) {
-    if (!skill || !skill.lead) throw new Error('技能缺少 lead 文件');
-    let body;
+  // 读取某个技能文件的正文（剥离 frontmatter）。用户技能从 storage 读，内置走双路径。
+  async function readSkillBody(skill, relPath) {
+    let raw;
     if (skill.source === 'user') {
-      const raw = await DSWA.userSkills.readFile(skill, skill.lead.path);
-      if (!raw) throw new Error('用户技能缺少文件：' + skill.lead.path);
-      body = stripFrontmatter(raw);
+      raw = await DSWA.userSkills.readFile(skill, relPath);
+      if (!raw) throw new Error('用户技能缺少文件：' + relPath);
     } else {
-      const url = DSWA.SKILLS.baseUrl + '/' + skill.lead.path;
+      const url = DSWA.SKILLS.baseUrl + '/' + relPath;
       let text = null;
       try {
         const res = await fetchDirect(url, '技能文件');
@@ -108,17 +105,36 @@ DSWA.skillIndex = (() => {
       }
       if (text === null) {
         const res = await withTimeout(
-          chrome.runtime.sendMessage({ type: 'DSWA_GET_SKILL_TEXT', path: skill.lead.path }),
+          chrome.runtime.sendMessage({ type: 'DSWA_GET_SKILL_TEXT', path: relPath }),
           4000,
           'background 技能文件'
         );
         if (!res || !res.ok) throw new Error((res && res.error) || '无法加载技能文件');
         text = res.text;
       }
-      body = stripFrontmatter(text);
+      raw = text;
     }
-    const wrap = DSWA.GUIDE[skill.type] || DSWA.GUIDE.single;
-    return wrap(skill.name, body);
+    return stripFrontmatter(raw);
+  }
+
+  // 生成注入提示词：
+  //   group  → 引导 + 主理人定义 + 各成员定义（结尾等待用户输入任务）
+  //   single → 引导 + 技能正文
+  async function promptFor(skill) {
+    if (!skill || !skill.lead) throw new Error('技能缺少 lead 文件');
+    if (skill.type === 'group') {
+      const leadBody = await readSkillBody(skill, skill.lead.path);
+      const members = await Promise.all((skill.members || []).map(async m => {
+        try {
+          return { name: m.name, body: await readSkillBody(skill, m.path) };
+        } catch (e) {
+          return { name: m.name, body: '（该成员定义读取失败：' + e.message + '）' };
+        }
+      }));
+      return DSWA.GUIDE.group(skill.name, skill.lead.name, leadBody, members);
+    }
+    const body = await readSkillBody(skill, skill.lead.path);
+    return DSWA.GUIDE.single(skill.name, body);
   }
 
   // 剥离 YAML frontmatter（--- ... ---），只留正文作为提示词

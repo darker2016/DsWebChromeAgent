@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-11",
+  "generated_at": "2026-08-12",
   "counts": {
     "group": 12,
     "single": 17
@@ -11,16 +11,12 @@
       "type": "group",
       "name": "ai-content-creator-skills（AI 内容创作专家团）",
       "category": "内容创作",
-      "description": "AI 内容创作专家团主理人（司远 · 创意制片人）。协调 6 位专业成员（creative-strategist、copywriter、video-generator、image-creator、video-editor、content-adapter）按预设 Workflow 完成多模态内容生产全流程。   触发词：\"帮我做个视频\"、\"生成一段宣传片\"、\"做一套宣传物料\"、\"写一篇带配图的文章\"、\"帮我设计品牌视觉\"、\"制作短视频\"、\"内容创作一条龙\"。   路由逻辑：单一维度任务走单 Agent 直调；综合性内容需求走对应预设 Workflow。",
+      "description": "AI 多模态内容生产技能包，基于 WorkBuddy 内置工具（HY-Video、YT-Video、HY-Image、YT-VITA、ImageGen、ImageEdit），   涵盖创意策略、视频生成、图片创作、视频编辑、发布级精修和素材改编的完整知识体系。   触发词：视频生成、图片创作、AI创作、智能剪辑、视频翻译、素材分析、内容合成、Prompt工程、创意策划、情绪板、广告方向、精修。",
       "lead": {
-        "path": "groups/ai-content-creator-skills/team-lead/SKILL.md",
-        "name": "ai-content-creator-team-lead"
+        "path": "groups/ai-content-creator-skills/ai-content-production/SKILL.md",
+        "name": "ai-content-production"
       },
       "members": [
-        {
-          "path": "groups/ai-content-creator-skills/ai-content-production/SKILL.md",
-          "name": "ai-content-production"
-        },
         {
           "path": "groups/ai-content-creator-skills/content-adapter/SKILL.md",
           "name": "content-adapter"
@@ -38,6 +34,10 @@
           "name": "image-creator"
         },
         {
+          "path": "groups/ai-content-creator-skills/team-lead/SKILL.md",
+          "name": "team-lead"
+        },
+        {
           "path": "groups/ai-content-creator-skills/video-editor/SKILL.md",
           "name": "video-editor"
         },
@@ -48,13 +48,18 @@
       ],
       "member_count": 8,
       "triggers": [
-        "\"帮我做个视频\"",
-        "\"生成一段宣传片\"",
-        "\"做一套宣传物料\"",
-        "\"写一篇带配图的文章\"",
-        "\"帮我设计品牌视觉\"",
-        "\"制作短视频\"",
-        "\"内容创作一条龙\""
+        "视频生成",
+        "图片创作",
+        "AI创作",
+        "智能剪辑",
+        "视频翻译",
+        "素材分析",
+        "内容合成",
+        "Prompt工程",
+        "创意策划",
+        "情绪板",
+        "广告方向",
+        "精修"
       ]
     },
     {
@@ -132,16 +137,12 @@
       "type": "group",
       "name": "gpt-researcher-skills（深度研究团队）",
       "category": "研究/教育",
-      "description": "深度研究团队主理人（顾全之 · 研究主编）。带领 6 位专业成员按 5 阶段工作流（初调→规划→逐章深研→报告组装→发布输出）完成系统性深度研究，输出带多源引用的专业研究报告。   触发词：深度研究、行业研究、竞品分析、市场调研、学术综述、出一份研究报告、专题研究、趋势分析、技术综述。",
+      "description": "草稿审稿人（明鉴秋 Ming）。由 research-chief-editor 主理人调度，按 6 维标准审查章节草稿（来源充分性、事实准确性、观点均衡性、内容深度、结构清晰度、格式规范性），输出 PASS 或 REVISE 判定。尊重 3 轮循环规则：第 3 轮强制 PASS。   触发词：由 research-chief-editor 主理人调度执行，不直接面向用户。当主理人下发 Phase 3.2 审稿任务时激活。",
       "lead": {
-        "path": "groups/gpt-researcher-skills/research-chief-editor/SKILL.md",
-        "name": "research-chief-editor"
+        "path": "groups/gpt-researcher-skills/draft-reviewer/SKILL.md",
+        "name": "draft-reviewer"
       },
       "members": [
-        {
-          "path": "groups/gpt-researcher-skills/draft-reviewer/SKILL.md",
-          "name": "draft-reviewer"
-        },
         {
           "path": "groups/gpt-researcher-skills/draft-reviser/SKILL.md",
           "name": "draft-reviser"
@@ -155,6 +156,10 @@
           "name": "report-writer"
         },
         {
+          "path": "groups/gpt-researcher-skills/research-chief-editor/SKILL.md",
+          "name": "research-chief-editor"
+        },
+        {
           "path": "groups/gpt-researcher-skills/research-planner/SKILL.md",
           "name": "research-planner"
         },
@@ -165,15 +170,8 @@
       ],
       "member_count": 7,
       "triggers": [
-        "深度研究",
-        "行业研究",
-        "竞品分析",
-        "市场调研",
-        "学术综述",
-        "出一份研究报告",
-        "专题研究",
-        "趋势分析",
-        "技术综述"
+        "由 research-chief-editor 主理人调度执行",
+        "不直接面向用户。当主理人下发 Phase 3.2 审稿任务时激活"
       ]
     },
     {
@@ -200,15 +198,11 @@
           "name": "hr-org-developer-SKILL"
         },
         {
-          "path": "groups/hr-operations-skills/hr-playbook-SKILL.md",
-          "name": "hr-playbook-SKILL"
-        },
-        {
           "path": "groups/hr-operations-skills/hr-recruiter-SKILL.md",
           "name": "hr-recruiter-SKILL"
         }
       ],
-      "member_count": 6,
+      "member_count": 5,
       "triggers": [
         "招聘",
         "面试方案",
@@ -228,16 +222,12 @@
       "type": "group",
       "name": "investment-masters-skills（AI 投资大师专家团）",
       "category": "投资分析",
-      "description": "AI 对冲基金投资大师专家团主理人（贺知衡 · 基金经理）。调度 21 位专业成员（13 位传奇投资哲学家 + 6 位专业分析师 + 2 位管理层）按 SOP 完成系统性投资分析。   触发词：投资分析、股票分析、大师分析、巴菲特怎么看、多大师分析、对冲基金分析、   投资大师、价值投资、成长投资、全面分析、深度投资分析、基金分析、   该不该买、值不值得投资、投资价值、帮我分析、多维度分析、全方位评估。",
+      "description": "格雷厄姆（本杰明·格雷厄姆）投资智能体。价值投资之父，关注安全边际、格雷厄姆数字、净净值（NCAV）和财务实力，输出 [格雷厄姆分析信号]。   在 Phase 1 分析阶段由 hedge-fund-lead 主理人并行调用。   擅长：格雷厄姆数字计算、净流动资产价值（NCAV）、安全边际量化、防御型/进攻型投资标准、盈利稳定性检查。",
       "lead": {
-        "path": "groups/investment-masters-skills/hedge-fund-lead/SKILL.md",
-        "name": "hedge-fund-lead"
+        "path": "groups/investment-masters-skills/ben-graham/SKILL.md",
+        "name": "ben-graham"
       },
       "members": [
-        {
-          "path": "groups/investment-masters-skills/ben-graham/SKILL.md",
-          "name": "ben-graham"
-        },
         {
           "path": "groups/investment-masters-skills/black-swan-prophet/SKILL.md",
           "name": "black-swan-prophet"
@@ -257,6 +247,10 @@
         {
           "path": "groups/investment-masters-skills/growth-analyst/SKILL.md",
           "name": "growth-analyst"
+        },
+        {
+          "path": "groups/investment-masters-skills/hedge-fund-lead/SKILL.md",
+          "name": "hedge-fund-lead"
         },
         {
           "path": "groups/investment-masters-skills/macro-king/SKILL.md",
@@ -308,14 +302,7 @@
         }
       ],
       "member_count": 19,
-      "triggers": [
-        "投资分析",
-        "股票分析",
-        "大师分析",
-        "巴菲特怎么看",
-        "多大师分析",
-        "对冲基金分析"
-      ]
+      "triggers": []
     },
     {
       "id": "invoice-verify-skills",
@@ -357,16 +344,12 @@
       "type": "group",
       "name": "mvp-dev-skills（MVP 开发专家团）",
       "category": "开发",
-      "description": "MVP 开发专家团主理人（郝交付 · 交付总监）。统筹 7 位专家（PM/设计/架构/前端/后端/QA/运维）按 6 阶段 SOP 完成 MVP 产品交付。   触发词：\"帮我做个产品\"、\"MVP 开发\"、\"快速搭一个\"、\"做个 demo\"、\"从零搭建\"、\"做一个 XX 应用\"、\"帮我开发 XX\"。   路由逻辑：综合性产品开发任务走完整 SOP；单一维度需求（仅设计/仅后端/仅部署）可直调对应专家。",
+      "description": "MVP 开发专家团架构师（高见远）。擅长技术选型对比矩阵、系统架构设计、RESTful API 设计、DB Schema 设计、技术可行性验证。   触发词：由 mvp-dev-team-lead 主理人调度执行 Phase 1 调研或 Phase 2 设计细化任务时激活。不直接面向用户。",
       "lead": {
-        "path": "groups/mvp-dev-skills/mvp-dev-team-lead/SKILL.md",
-        "name": "mvp-dev-team-lead"
+        "path": "groups/mvp-dev-skills/architect/SKILL.md",
+        "name": "architect"
       },
       "members": [
-        {
-          "path": "groups/mvp-dev-skills/architect/SKILL.md",
-          "name": "architect"
-        },
         {
           "path": "groups/mvp-dev-skills/backend/SKILL.md",
           "name": "backend"
@@ -384,6 +367,10 @@
           "name": "frontend"
         },
         {
+          "path": "groups/mvp-dev-skills/mvp-dev-team-lead/SKILL.md",
+          "name": "mvp-dev-team-lead"
+        },
+        {
           "path": "groups/mvp-dev-skills/pm/SKILL.md",
           "name": "pm"
         },
@@ -394,13 +381,7 @@
       ],
       "member_count": 8,
       "triggers": [
-        "\"帮我做个产品\"",
-        "\"MVP 开发\"",
-        "\"快速搭一个\"",
-        "\"做个 demo\"",
-        "\"从零搭建\"",
-        "\"做一个 XX 应用\"",
-        "\"帮我开发 XX\""
+        "由 mvp-dev-team-lead 主理人调度执行 Phase 1 调研或 Phase 2 设计细化任务时激活。不直接面向用户"
       ]
     },
     {
@@ -429,13 +410,9 @@
         {
           "path": "groups/sales-battle-skills/skill-sales-forecaster-2026-07-04.md",
           "name": "skill-sales-forecaster-2026-07-04"
-        },
-        {
-          "path": "groups/sales-battle-skills/skill-sales-playbook-2026-07-04.md",
-          "name": "skill-sales-playbook-2026-07-04"
         }
       ],
-      "member_count": 6,
+      "member_count": 5,
       "triggers": []
     },
     {
@@ -443,16 +420,12 @@
       "type": "group",
       "name": "seo-content-skills（SEO 内容营销团队）",
       "category": "内容创作",
-      "description": "SEO 内容营销团队编排与工作流管理工具。提供完整的 5 阶段 SOP、团队协作机制、   成员调度规范和最终报告整合标准。   触发词：团队编排、工作流管理、SOP、任务调度、内容发布、团队协作",
+      "description": "内容编辑与人性化工具集。提供五维度内容评分、AI 痕迹检测与清除、标题优化、   可读性分析和品牌声音校准功能。   触发词：内容编辑、AI 痕迹、标题优化、可读性、人性化、编辑评分",
       "lead": {
-        "path": "groups/seo-content-skills/team-orchestration/SKILL.md",
-        "name": "team-orchestration"
+        "path": "groups/seo-content-skills/content-editing/SKILL.md",
+        "name": "content-editing"
       },
       "members": [
-        {
-          "path": "groups/seo-content-skills/content-editing/SKILL.md",
-          "name": "content-editing"
-        },
         {
           "path": "groups/seo-content-skills/distribution-strategy/SKILL.md",
           "name": "distribution-strategy"
@@ -464,16 +437,20 @@
         {
           "path": "groups/seo-content-skills/link-strategy/SKILL.md",
           "name": "link-strategy"
+        },
+        {
+          "path": "groups/seo-content-skills/team-orchestration/SKILL.md",
+          "name": "team-orchestration"
         }
       ],
       "member_count": 5,
       "triggers": [
-        "团队编排",
-        "工作流管理",
-        "SOP",
-        "任务调度",
-        "内容发布",
-        "团队协作"
+        "内容编辑",
+        "AI 痕迹",
+        "标题优化",
+        "可读性",
+        "人性化",
+        "编辑评分"
       ]
     },
     {
@@ -520,20 +497,12 @@
       "type": "group",
       "name": "视频创作团队技能文档包 — 已完成",
       "category": "内容创作",
-      "description": "",
+      "description": "视频生成团队主理人（凌导）调度技能。负责创建团队、按 SOP 编排成员、质检、交付。   触发词：主理人、凌导、我的团队、调度",
       "lead": {
-        "path": "groups/video-gen-skills/video-team-lead-skill.md",
-        "name": "video-team-lead-skill"
+        "path": "groups/video-gen-skills/01-video-team-lead-skill.md",
+        "name": "video-team-lead"
       },
       "members": [
-        {
-          "path": "groups/video-gen-skills/00-team-playbook.md",
-          "name": "00-team-playbook"
-        },
-        {
-          "path": "groups/video-gen-skills/01-video-team-lead-skill.md",
-          "name": "01-video-team-lead-skill"
-        },
         {
           "path": "groups/video-gen-skills/02-ling-reader-collector-skill.md",
           "name": "02-ling-reader-collector-skill"
@@ -547,8 +516,13 @@
           "name": "04-ling-producer-renderer-skill"
         }
       ],
-      "member_count": 6,
-      "triggers": []
+      "member_count": 4,
+      "triggers": [
+        "主理人",
+        "凌导",
+        "我的团队",
+        "调度"
+      ]
     },
     {
       "id": "algorithmic-art",

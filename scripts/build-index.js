@@ -156,6 +156,8 @@ function groupSkillFiles(dir) {
       const base = parts[parts.length - 1];
       // 常见非技能文档（含中文命名）不计入成员
       if (['README.md', 'overview.md', '概览.md', '说明.md', 'index.md'].includes(base)) return false;
+      // 团队 playbook / 规范类不属于成员角色
+      if (/playbook/i.test(base)) return false;
       if (parts.slice(0, -1).some(x => ['references', 'scripts', 'assets'].includes(x))) return false;
       return true;
     })
@@ -163,10 +165,20 @@ function groupSkillFiles(dir) {
     .sort();
 }
 
+// 归一化文件名：忽略前导数字序号（如 01-video-team-lead-skill.md → video-team-lead-skill.md）
+function normalizeBase(rel) {
+  return rel.split('/').pop().replace(/^\d+[-_]\s*/, '').toLowerCase();
+}
+
 function detectLead(readme, skillFiles) {
   if (readme) {
     const m = readme.match(/\| `([^`]+\.md)` \|[^|]*主理人/);
-    if (m) return m[1];
+    if (m) {
+      // README 团队表里的文件名可能不带数字前缀，归一化后与真实文件匹配
+      const norm = normalizeBase(m[1]);
+      const hit = skillFiles.find(f => normalizeBase(f) === norm);
+      if (hit) return hit;
+    }
   }
   const byLead = skillFiles.find(f => /\blead\b/i.test(f));
   if (byLead) return byLead;

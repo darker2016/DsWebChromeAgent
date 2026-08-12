@@ -52,8 +52,8 @@ Chrome MV3 扩展：在多个 AI 对话站点（Deepseek / Kimi / 豆包 / ChatG
    - 合并用户技能：chrome.storage 里 source:'user' 的技能追加进缓存索引
 4. 用户点某个技能 → insertSkill(skill)
 5. skillIndex.promptFor(skill) → 引导模板（DSWA.GUIDE[type]）+ 技能正文
-   - group → 「你正在启用…专家团技能…主理人职责」+ groups/<id>/<lead.path>
-   - single → 「你正在启用…技能…严格按定义执行」+ singles/<id>/<SKILL.md>
+   - group → 「我将使用下面的…专家团…」+ 主理人定义 + 各成员定义（groups/<id>/…）
+   - single → 「你正在启用…技能…」+ 自身 SKILL.md 正文（singles/<id>/<SKILL.md>）
    - 用户技能 → 从 chrome.storage 读取文件正文
 6. adapter.injectPrompt(prompt)：
    - textarea  → 原生 value setter + input 事件（React 兼容）
