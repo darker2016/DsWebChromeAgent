@@ -50,7 +50,8 @@ async function enableSite(host, tabId) {
   }
   await registerHost(host);
   if (tabId) {
-    // 立即在当前 tab 注入
+    // 立即在当前 tab 注入（JS + CSS；CSS 缺失会导致浮动按钮无样式）
+    await chrome.scripting.insertCSS({ target: { tabId }, files: CONTENT_CSS });
     await chrome.scripting.executeScript({ target: { tabId }, files: CONTENT_JS });
   }
 }

@@ -76,7 +76,7 @@ node scripts/build-index.js   # 扫描两类目录 → 生成 skills/index.json
 1. 打开任意含富文本框的页面
 2. popup →「在此页面启用插件」→ DSWA_ENABLE_SITE(host, tabId)
 3. background：
-   - executeScript 立即注入内容脚本（当前页出现「技能」按钮）
+   - insertCSS + executeScript 立即注入样式与内容脚本（当前页出现「技能」按钮）
    - registerContentScripts 持久化注册该 host（下次访问自动注入）
    - host 记入 chrome.storage['dswa:sites']；onInstalled/onStartup 重注册
 4. 该页用「通用」适配器（textarea + contenteditable 检测）

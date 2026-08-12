@@ -77,7 +77,7 @@ document.execCommand('insertText', false, text);
 
 ## 5. 手动唤醒（任意页面）
 
-- popup →「在此页面启用插件」→ `DSWA_ENABLE_SITE` → background `executeScript` 即时注入 + `registerContentScripts` 持久化注册该 host。
+- popup →「在此页面启用插件」→ `DSWA_ENABLE_SITE` → background `insertCSS` + `executeScript` 即时注入，`registerContentScripts` 持久化注册该 host。
 - 该页使用 `generic` 适配器（`kind:'any'`，扫 textarea + contenteditable）。
 - 持久化的 host 存在 `chrome.storage['dswa:sites']`，onInstalled / onStartup 时重注册。
 

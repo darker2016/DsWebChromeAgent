@@ -10,10 +10,14 @@ versionEl.textContent = chrome.runtime.getManifest().version;
 
 (async () => {
   try {
-    const res = await fetch(chrome.runtime.getURL('skills/index.json'));
-    const idx = await res.json();
-    countGroupEl.textContent = idx.counts.group;
-    countSingleEl.textContent = idx.counts.single;
+    const [idxRes, userSkills] = await Promise.all([
+      fetch(chrome.runtime.getURL('skills/index.json')).then(r => r.json()),
+      DSWA.userSkills.list().catch(() => []),
+    ]);
+    const userGroups = userSkills.filter(s => s.type === 'group').length;
+    const userSingles = userSkills.filter(s => s.type === 'single').length;
+    countGroupEl.textContent = idxRes.counts.group + userGroups;
+    countSingleEl.textContent = idxRes.counts.single + userSingles;
   } catch {
     countGroupEl.textContent = '0';
     countSingleEl.textContent = '0';
