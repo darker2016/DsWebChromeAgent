@@ -106,7 +106,38 @@ node scripts/build-index.js
 
 从对应 manifest 移除 → 手动删除 `skills/groups|singles/<id>` 目录 → `node scripts/build-index.js` → 同步更新文档。
 
-## 6. 版权与归因
+## 6. 用户技能（运行时上传）
+
+浏览器用户在设置页（options）上传自定义技能，存储于 `chrome.storage.local['dswa:user-skills']`，运行时与内置技能合并展示（`source:'user'`，分类「用户自定义」）。**不走构建期脚本**。
+
+| 上传方式 | 格式 | 识别结果 |
+|---------|------|---------|
+| 单个 .md | 含 frontmatter（name/description）的 SKILL.md | `single`（files 存为 `{'SKILL.md': 正文}`） |
+| 文件夹 | 多个 .md | 仅一个 md → `single`；多个 → `group`（lead 判定：README「(主理人)」标记 → 路径含 lead/team-lead → 第一个） |
+
+存储结构（`dswa:user-skills` = map `id → skill`）：
+
+```jsonc
+{
+  "id": "user-xxx",
+  "source": "user",
+  "type": "group | single",
+  "name": "…",
+  "category": "用户自定义",
+  "description": "…",
+  "lead": { "path": "lead/SKILL.md", "name": "…" },
+  "members": [ { "path": "…", "name": "…" } ],
+  "member_count": 3,
+  "files": { "lead/SKILL.md": "…", "member/SKILL.md": "…" },  // 相对技能根目录
+  "createdAt": 123456
+}
+```
+
+- 实现：`src/shared/user-skills.js`（`list / get / save / remove / readFile / buildFromSingle / buildFromFolder`），content 与 options 共用。
+- 合并：`src/shared/skill-index.js` `load()` 拉取内置索引后追加用户技能；`promptFor()` 对用户技能从 storage 读取文件正文，同样套引导模板。
+- 依赖权限：`unlimitedStorage`（chrome.storage.local 体积上限放开）。
+
+## 7. 版权与归因
 
 - 专家团内容来自 WorkBuddySkillGroups（第三方作者见其仓库 LICENSE 顶部 attribution）。
 - 单体技能来自 anthropics/skills，各技能目录自带 LICENSE 文件，保留不删。

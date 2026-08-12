@@ -2,11 +2,11 @@
 
 ## 项目概述
 
-浏览器扩展（Chrome MV3），在 AI 对话页（当前仅 Deepseek）右下角注入「技能」浮动按钮。用户在面板中选择一个**技能**——**专家团**（多角色协作 skill 组）或**单体技能**（单个 SKILL.md）——扩展把对应 `SKILL.md` 引导提示词**注入聊天输入框**，让对话 AI 扮演专家主理人。
+浏览器扩展（Chrome MV3），在多个 AI 对话站点（Deepseek / Kimi / 豆包 / ChatGPT / 通义 / 智谱 / 元宝 / 文心，未支持站点可手动唤醒）右下角注入「技能」浮动按钮。用户在面板中选择一个**技能**——**专家团**（多角色协作 skill 组）、**单体技能**（单个 SKILL.md）或**用户自定义**——扩展把对应 `SKILL.md` 的**引导提示词**（引导模板 + 技能正文）**注入聊天输入框**，让对话 AI 扮演专家主理人。
 
 - **本地路径**：`/Users/darker/Documents/cursor_projects/DsBrowserHelper`
 - **GitHub**：https://github.com/darker2016/DeepseekWebAgent
-- **技能来源**：专家团 ← 本地 `WorkBuddySkillGroups`；单体技能 ← GitHub `anthropics/skills` 等开源收集
+- **技能来源**：专家团 ← 本地 `WorkBuddySkillGroups`；单体技能 ← GitHub `anthropics/skills` 等开源收集；用户技能 ← 浏览器上传（chrome.storage）
 
 ## 核心协作规则（必须遵守）
 
@@ -16,7 +16,8 @@
 
 | 代码 / 资源 | 对应文档 |
 |-------------|---------|
-| `src/content/*`、`src/shared/*` | `docs/site-adapters.md` |
+| `src/content/*` | `docs/site-adapters.md` |
+| `src/shared/*`（constants / skill-index / user-skills / site-config） | `docs/architecture.md` + `docs/site-adapters.md` + `docs/skill-system.md`（用户技能章节） |
 | `src/background`、`src/popup`、`src/options`、`manifest.json` | `docs/architecture.md` |
 | `skills/`、`scripts/*`（sync / fetch / build-index） | `docs/skill-system.md` |
 | 开发流程 | `docs/development.md` |
@@ -39,17 +40,18 @@
 
 1. `bash scripts/sync-skills.sh && bash scripts/fetch-single-skills.sh && node scripts/build-index.js`（一次性准备技能包）
 2. Chrome 打开 `chrome://extensions` → 开发者模式 → 「加载已解压的扩展程序」→ 选本项目根目录
-3. 打开 `chat.deepseek.com` → 点右下角「技能」按钮 → 选择技能 → 「插入」→ 输入框出现提示词 → 发送
+3. 打开任一支持的 AI 对话页（如 `chat.deepseek.com`）→ 点右下角「技能」按钮 → 选择技能 → 「插入」→ 输入框出现引导提示词 → 发送；不支持的页面用 popup「在此页面启用插件」手动唤醒
 4. 详细开发/调试见 `docs/development.md`
 
 ## 架构速览
 
 ```
-content script（浮动按钮 + 选择面板 + DSWA.adapter 注入输入框）
+content script（站点适配器 + 浮动按钮 + 选择面板 + 引导模板注入输入框）
         │ 直读优先 fetch(chrome.runtime.getURL(...))
         │ 失败转消息 DSWA_GET_INDEX / DSWA_GET_SKILL_TEXT（background 兜底）
+        │ 合并 chrome.storage 里的用户技能
         ▼
-skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/*
+skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/* + 用户上传
 ```
 
 完整架构、数据流、消息协议见 `docs/architecture.md`。
@@ -59,11 +61,11 @@ skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/*
 | 路径 | 作用 |
 |------|------|
 | `manifest.json` | MV3 声明（根目录，直接 Load unpacked） |
-| `src/content/` | 站点适配 + 浮动技能选择器（Deepseek） |
-| `src/shared/` | 技能索引加载 / 解析、常量 |
-| `src/background/` | 极简 service worker |
-| `src/popup/` | 工具栏弹窗 |
-| `src/options/` | 设置页（占位） |
+| `src/content/` | 站点适配器（site-adapter.js）+ 浮动技能选择器（skill-picker.js） |
+| `src/shared/` | 常量 + 引导模板（constants）、站点注册表（site-config）、用户技能（user-skills）、技能索引（skill-index） |
+| `src/background/` | service worker：技能兜底 + 站点唤醒（DSWA_ENABLE_SITE） |
+| `src/popup/` | 工具栏弹窗（站点状态 + 手动唤醒） |
+| `src/options/` | 设置页（技能概览 + 用户技能上传/删除） |
 | `skills/` | 内置技能包（`index.json` 勿手改） |
 | `scripts/` | 技能同步 + 索引构建 |
 | `docs/` | 详细文档（见下方索引） |
@@ -74,13 +76,15 @@ skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/*
 |------|-----------|
 | `docs/architecture.md` | 整体架构、模块职责、数据流、消息协议、权限 |
 | `docs/skill-system.md` | 注册表格式、技能来源、同步/构建、新增技能指南 |
-| `docs/site-adapters.md` | 站点适配层、Deepseek 注入机制、新增站点指南、真机验证记录 |
+| `docs/site-adapters.md` | 多站点适配层、注入机制（textarea/contenteditable）、手动唤醒、真机验证记录 |
 | `docs/development.md` | 本地加载、调试、测试、代码规范 |
 | `docs/release.md` | GitHub 发布、同步规范、版权归因、版本记录 |
 
 ## 技能系统要点
 
 - 技能统一为「目录 + SKILL.md + frontmatter」，注册表用 `type` 区分 `group`（专家团，注入 lead）与 `single`（单体，注入自身）。
+- **注入内容 = 引导模板 + 技能正文**：`DSWA.GUIDE`（constants.js）按 `type` 选模板——group 强调主理人调度职责，single 强调严格按定义执行。
+- **用户技能**：`src/shared/user-skills.js`，options 上传单个 .md / 文件夹 → `chrome.storage['dswa:user-skills']` → 运行时合并（`source:'user'`）。
 - 精选子集：专家团 12 组（见 `scripts/skills-manifest.txt`）、单体技能 17 个（见 `scripts/singles-manifest.txt`）。
 - 每次同步后必须 `node scripts/build-index.js` 重新生成 `skills/index.json`。
 - 分类映射在 `scripts/categories.json`；版权归因见 `docs/release.md`。
@@ -91,4 +95,4 @@ skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/*
 
 ## 当前版本
 
-`0.1.0` — 文档体系 + 最小可运行骨架（专家团 12 + 单体 17，Deepseek 注入链路）。
+`0.2.0` — 技能引导包装 + 用户上传技能 + 多站点/手动唤醒（内置专家团 12 + 单体 17）。
