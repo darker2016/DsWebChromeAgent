@@ -87,8 +87,10 @@ document.execCommand('insertText', false, text);
 |------|------|-------------|---------|------|
 | 2026-08-11 | chat.deepseek.com | `#chat-input` → `textarea` 兜底 | 原生 setter | ✅ 技能列表与注入可用（用户真机确认） |
 | 2026-08-12 | kimi.moonshot.cn | `textarea` → contenteditable 兜底 | 原生 setter | 未验证 |
+| 2026-08-13 | www.kimi.com（新域名） | `textarea` → contenteditable 兜底 | 原生 setter | 未验证 |
 | 2026-08-12 | doubao.com | `textarea` → contenteditable 兜底 | 原生 setter | 未验证 |
 | 2026-08-12 | chatgpt.com | `#prompt-textarea` → contenteditable | execCommand('insertText') | 未验证 |
+| 2026-08-13 | gemini.google.com | `rich-textarea div[contenteditable]` → contenteditable | execCommand('insertText') | 未验证 |
 | 2026-08-12 | 通义/智谱/元宝/文心 | 通用 textarea → contenteditable | 原生 setter | 未验证 |
 | 2026-08-12 | 任意页面（手动唤醒） | generic 通用检测 | 按命中 kind | 未验证 |
 

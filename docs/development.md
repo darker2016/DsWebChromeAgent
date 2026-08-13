@@ -17,9 +17,9 @@ cd /Users/darker/Documents/cursor_projects/DsBrowserHelper
 # 1) 同步专家团（从本地 WorkBuddySkillGroups）
 bash scripts/sync-skills.sh
 
-# 2) 收集单体技能（从 GitHub 或本地克隆）
+# 2) 收集单体技能（从多个 GitHub 仓库，按 singles-manifest.txt 多仓库格式）
 bash scripts/fetch-single-skills.sh
-# 或：bash scripts/fetch-single-skills.sh --source-dir /path/to/anthropics-skills-clone
+# 或：bash scripts/fetch-single-skills.sh --source-dir /path/to/local-clones  （需 <owner>/<name> 子目录结构）
 
 # 3) 生成技能注册表
 node scripts/build-index.js
@@ -78,8 +78,9 @@ node scripts/build-index.js
 - [ ] 上传含多个 SKILL.md 的文件夹 → 「专家团」Tab 出现 → 可注入（lead 正确）
 - [ ] 删除用户技能后从面板消失
 
-**多站点 + 手动唤醒（v0.2.0）**
-- [ ] 登录 Kimi / 豆包 → FAB 自动出现 → 注入成功（选择器结果登记到 docs/site-adapters.md）
+**多站点 + 手动唤醒（v0.2.0+）**
+- [ ] 登录 Kimi（www.kimi.com / kimi.moonshot.cn）、豆包 → FAB 自动出现 → 注入成功（选择器结果登记到 docs/site-adapters.md）
+- [ ] Gemini（gemini.google.com，contenteditable）→ execCommand 注入是否触发输入框（真机验证）
 - [ ] ChatGPT（contenteditable）→ execCommand 注入是否触发输入框（真机验证）
 - [ ] 打开任意含 textarea 的页面 → popup「在此页面启用插件」→ FAB 出现 → 注入成功
 - [ ] 重启浏览器后再访该页，FAB 仍在（registerContentScripts 持久化生效）

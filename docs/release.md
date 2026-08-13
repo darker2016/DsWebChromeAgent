@@ -37,10 +37,11 @@ git commit -m "chore: 初始化 DsBrowserHelper（文档体系 + 最小可运行
 - 不修改同步来的 SKILL.md / README 内容（保持与来源一致，便于追溯）。
 - 专家团版权归 WorkBuddySkillGroups 第三方作者所有，见其仓库 LICENSE 顶部 attribution 列表。
 
-### 从 anthropics/skills 同步（单体技能）
+### 从 GitHub 仓库同步（单体技能）
 
-- 每个技能目录自带的 `LICENSE` 文件原样保留，**不得删除**。
-- 遵守上游仓库的 LICENSE 条款（MIT，见各技能目录 LICENSE）。
+- `fetch-single-skills.sh` 只收集 `SKILL.md`（+ 技能目录内 LICENSE），遵守上游许可条款。
+- 各来源仓库许可：anthropics/skills（MIT）、DeepJH/doubao-skill-and-info（MIT）。
+- 接入新来源前必须确认可再分发许可；无 LICENSE 的仓库**不得打包**（见 docs/skill-system.md §3 许可红线）。
 - 若替换 / 增删单体技能来源，更新 docs/skill-system.md §3 来源表与 README。
 
 ## 5. 版权与归因清单
@@ -49,10 +50,11 @@ git commit -m "chore: 初始化 DsBrowserHelper（文档体系 + 最小可运行
 |------|---------|
 | 本扩展代码（src/、docs/、CLAUDE.md 等） | MIT，Copyright (c) 2026 darker2016 |
 | 专家团技能（skills/groups/） | 来自 WorkBuddySkillGroups，第三方作者版权（见其仓库 LICENSE） |
-| 单体技能（skills/singles/） | 来自 anthropics/skills，MIT（各目录 LICENSE.txt） |
+| 单体技能（skills/singles/） | 来自 anthropics/skills（MIT）与 DeepJH/doubao-skill-and-info（MIT，豆包/飞书技能，版权归原作者） |
 | 图标 / 商标 | 无内置图标；Deepseek 为 DeepSeek 公司商标，本扩展与官方无关联 |
 
 ## 6. 版本记录
 
+- `0.3.0` — 多站点新增 Gemini / Kimi（kimi.com）；专家团扩到 44 组；单体技能扩到 54 个（新增豆包/飞书 MIT 技能，多仓库同步）。
 - `0.2.0` — 技能引导包装（group/single 两套引导模板）；用户上传技能（单个 .md / 文件夹）；多站点适配（Kimi/豆包/ChatGPT/通义/智谱/元宝/文心）+ 任意页面手动唤醒。
 - `0.1.0` — 文档体系 + 最小可运行骨架：专家团 12 组 + 单体技能 17 个；Deepseek 注入链路。

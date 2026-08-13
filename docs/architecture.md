@@ -101,7 +101,7 @@ popup / background / content 之间通过 `chrome.runtime.sendMessage` / `onMess
 |----|----|------|
 | permissions | `storage` `unlimitedStorage` `scripting` `tabs` | 技能存储；用户技能体积；运行时注入；查询当前 tab |
 | host_permissions | `<all_urls>` | executeScript / registerContentScripts 对任意站点生效的前提 |
-| content_scripts.matches | 内置 14 条站点匹配 | 支持站点的 FAB 自动出现（见 site-config.js 的站点列表） |
+| content_scripts.matches | 内置 18 条站点匹配 | 支持站点的 FAB 自动出现（见 site-config.js 的站点列表） |
 | web_accessible_resources | `skills/*` matches `<all_urls>` | 内容脚本直读技能包（覆盖所有注入站点） |
 
 ⚠️ 新增站点：先在 `src/shared/site-config.js` 注册，再改 `manifest.json` 的 `content_scripts.matches`，并在 docs/site-adapters.md 登记验证结果。

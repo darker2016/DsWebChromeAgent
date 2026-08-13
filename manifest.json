@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Deepseek Web Agent",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "在 AI 对话页面中选择并注入专家团 / 单体技能，让对话 AI 扮演专家主理人。",
   "minimum_chrome_version": "110",
   "permissions": ["storage", "unlimitedStorage", "scripting", "tabs"],

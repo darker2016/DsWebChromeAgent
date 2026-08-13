@@ -54,13 +54,15 @@
 
 ## 3. 技能来源
 
-| 来源 | 类型 | 地址 |
-|------|------|------|
-| WorkBuddySkillGroups（本地） | group | `/Users/darker/Documents/cursor_projects/WorkBuddySkillGroups`（GitHub: darker2016/workbuddy-skill-groups） |
-| anthropics/skills（官方开源示例技能） | single | https://github.com/anthropics/skills |
-| 后续可选：superpowers | single | https://github.com/obra/superpowers |
-| 后续可选：awesome-claude-code（社区清单） | single | https://github.com/hesreallyhim/awesome-claude-code |
+| 来源 | 类型 | 地址 | 许可 |
+|------|------|------|------|
+| WorkBuddySkillGroups（本地） | group | `/Users/darker/Documents/cursor_projects/WorkBuddySkillGroups`（GitHub: darker2016/workbuddy-skill-groups） | MIT |
+| anthropics/skills（官方开源示例技能） | single | https://github.com/anthropics/skills | MIT |
+| DeepJH/doubao-skill-and-info（豆包 / 飞书技能提取） | single | https://github.com/DeepJH/doubao-skill-and-info | MIT |
+| 后续可选：obra/superpowers | single | https://github.com/obra/superpowers | MIT |
+| 后续可选：alirezarezvani/claude-skills（345 技能） | single | https://github.com/alirezarezvani/claude-skills | MIT |
 
+> ⚠️ **许可约束**：GitHub 上大量 WorkBuddy/豆包技能集合（如 `Tugoukezhang/workbuddy-skills`、`wqbcs/DoubaoSKILLS`）**无 LICENSE，不能打包分发**，仅可自行下载参考。接入新来源前必须确认 MIT/Apache 等可再分发许可，并在本文档登记。
 > 网络受限时可先用 `git clone` 拉取来源仓库到本地，再用 `--source-dir` 参数走本地复制。
 
 ## 4. 同步与构建流程
@@ -69,19 +71,19 @@
 # 1) 专家团：从本地 WorkBuddySkillGroups 同步（按 skills-manifest.txt）
 bash scripts/sync-skills.sh [源目录]
 
-# 2) 单体技能：从 GitHub 下载（按 singles-manifest.txt）
-bash scripts/fetch-single-skills.sh [--source-dir <本地克隆> | --repo <URL> --ref <分支>]
+# 2) 单体技能：从多个 GitHub 仓库收集（按 singles-manifest.txt）
+bash scripts/fetch-single-skills.sh [--source-dir <本地克隆根目录>]
 
 # 3) 重新生成注册表（幂等）
 node scripts/build-index.js
 ```
 
-- `scripts/skills-manifest.txt`：专家团精选清单（一行一个目录名，`#` 为注释）。
-- `scripts/singles-manifest.txt`：单体技能清单。
+- `scripts/skills-manifest.txt`：专家团清单（一行一个目录名，`#` 为注释）。
+- `scripts/singles-manifest.txt`：**多仓库格式**：`技能id<TAB>仓库<TAB>分支<TAB>仓库内路径`，如 `doubao-data-analysis	DeepJH/doubao-skill-and-info	main	skills/doubao-data-analysis`。
 - `scripts/categories.json`：id → 分类映射，两类共用。
-- 同步脚本排除 `.DS_Store` / `.gitignore` / `__pycache__`，单体技能目录自带 LICENSE 会被原样保留（归因要求）。
+- `fetch-single-skills.sh` 每个技能只收集 `SKILL.md`（+ 技能目录内 LICENSE），浏览器注入只用 SKILL.md 提示词。
 
-> 📦 **体积说明**：单体技能（docx/pptx/xlsx 的 Office schema、canvas-design 的字体等）自带 scripts/assets 使 `skills/` 约 12M。浏览器注入场景只用 SKILL.md 提示词，这些辅助资源为冗余；后续可考虑同步时仅保留 SKILL.md + LICENSE + 必要 references，并在本文档登记变更。
+> 📦 **体积说明**：单体技能只保留 SKILL.md（+ LICENSE），`skills/` 当前约 5M（44 专家团 + 54 单体）。早期整目录复制（含 Office schema / 字体 / scripts）会使包体积到 12M+，已改为精简收集。
 
 ## 5. 新增 / 删除技能
 

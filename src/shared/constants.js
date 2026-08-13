@@ -5,7 +5,7 @@ globalThis.DSWA = globalThis.DSWA || {};
 DSWA.APP = {
   name: 'Deepseek Web Agent',
   shortName: 'DSWA',
-  version: '0.2.0',
+  version: '0.3.0',
 };
 
 DSWA.SKILLS = {

@@ -1,21 +1,63 @@
-# 单体技能（single）清单：一行一个技能目录名
-# 默认来源：https://github.com/anthropics/skills（官方开源示例技能）
-# 修改此清单后运行：bash scripts/fetch-single-skills.sh && node scripts/build-index.js
-# 备选来源：anthropics/skills 之外，可参考 superpowers、awesome-claude-code 等社区集合（见 docs/skill-system.md）
-docx
-pdf
-pptx
-xlsx
-frontend-design
-webapp-testing
-canvas-design
-brand-guidelines
-doc-coauthoring
-internal-comms
-skill-creator
-claude-api
-mcp-builder
-slack-gif-creator
-theme-factory
-web-artifacts-builder
-algorithmic-art
+# 单体技能（single）清单。
+# 每行格式：技能id<TAB>仓库<TAB>分支<TAB>仓库内路径
+# 每个技能只收集 SKILL.md + LICENSE（浏览器注入只用 SKILL.md 提示词）。
+# 修改后运行：bash scripts/fetch-single-skills.sh && node scripts/build-index.js
+# 来源说明：
+#   anthropics/skills —— 官方开源示例技能（MIT）
+#   DeepJH/doubao-skill-and-info —— 豆包 / 飞书技能提取（MIT，含 LICENSE）
+docx	anthropics/skills	main	skills/docx
+pdf	anthropics/skills	main	skills/pdf
+pptx	anthropics/skills	main	skills/pptx
+xlsx	anthropics/skills	main	skills/xlsx
+frontend-design	anthropics/skills	main	skills/frontend-design
+webapp-testing	anthropics/skills	main	skills/webapp-testing
+canvas-design	anthropics/skills	main	skills/canvas-design
+brand-guidelines	anthropics/skills	main	skills/brand-guidelines
+doc-coauthoring	anthropics/skills	main	skills/doc-coauthoring
+internal-comms	anthropics/skills	main	skills/internal-comms
+skill-creator	anthropics/skills	main	skills/skill-creator
+claude-api	anthropics/skills	main	skills/claude-api
+mcp-builder	anthropics/skills	main	skills/mcp-builder
+slack-gif-creator	anthropics/skills	main	skills/slack-gif-creator
+theme-factory	anthropics/skills	main	skills/theme-factory
+web-artifacts-builder	anthropics/skills	main	skills/web-artifacts-builder
+algorithmic-art	anthropics/skills	main	skills/algorithmic-art
+# ---- 豆包（DeepJH/doubao-skill-and-info, MIT）----
+doubao-newmedia-writing	DeepJH/doubao-skill-and-info	main	skills/doubao-newmedia-writing
+doubao-novel-writing	DeepJH/doubao-skill-and-info	main	skills/doubao-novel-writing
+doubao-book-writer	DeepJH/doubao-skill-and-info	main	skills/doubao-book-writer
+doubao-official-doc	DeepJH/doubao-skill-and-info	main	skills/doubao-official-doc
+doubao-multiplatform-rewrite	DeepJH/doubao-skill-and-info	main	skills/doubao-multiplatform-rewrite
+doubao-creative-video	DeepJH/doubao-skill-and-info	main	skills/doubao-creative-video
+doubao-creative-design	DeepJH/doubao-skill-and-info	main	skills/doubao-creative-design
+doubao-video-extract	DeepJH/doubao-skill-and-info	main	skills/doubao-video-extract
+doubao-data-analysis	DeepJH/doubao-skill-and-info	main	skills/doubao-data-analysis
+doubao-visualization	DeepJH/doubao-skill-and-info	main	skills/doubao-visualization
+doubao-marketing-plan	DeepJH/doubao-skill-and-info	main	skills/doubao-marketing-plan
+doubao-marketing-material-review	DeepJH/doubao-skill-and-info	main	skills/doubao-marketing-material-review
+doubao-market-hotspot	DeepJH/doubao-skill-and-info	main	skills/doubao-market-hotspot
+doubao-industry-analysis	DeepJH/doubao-skill-and-info	main	skills/doubao-industry-analysis
+doubao-cross-border-growth-content	DeepJH/doubao-skill-and-info	main	skills/doubao-cross-border-growth-content
+doubao-questionnaire-designer	DeepJH/doubao-skill-and-info	main	skills/doubao-questionnaire-designer
+doubao-product-manager	DeepJH/doubao-skill-and-info	main	skills/doubao-product-manager
+doubao-product-analysis	DeepJH/doubao-skill-and-info	main	skills/doubao-product-analysis
+doubao-product-selection	DeepJH/doubao-skill-and-info	main	skills/doubao-product-selection
+doubao-contract-reviewer	DeepJH/doubao-skill-and-info	main	skills/doubao-contract-reviewer
+doubao-contract-drafting	DeepJH/doubao-skill-and-info	main	skills/doubao-contract-drafting
+doubao-patent-drafting	DeepJH/doubao-skill-and-info	main	skills/doubao-patent-drafting
+doubao-earnings-analysis	DeepJH/doubao-skill-and-info	main	skills/doubao-earnings-analysis
+doubao-finance-model-builder	DeepJH/doubao-skill-and-info	main	skills/doubao-finance-model-builder
+doubao-stock-screening	DeepJH/doubao-skill-and-info	main	skills/doubao-stock-screening
+doubao-daily-stock	DeepJH/doubao-skill-and-info	main	skills/doubao-daily-stock
+doubao-public-company-analysis	DeepJH/doubao-skill-and-info	main	skills/doubao-public-company-analysis
+doubao-private-company	DeepJH/doubao-skill-and-info	main	skills/doubao-private-company
+doubao-wealth-planning	DeepJH/doubao-skill-and-info	main	skills/doubao-wealth-planning
+doubao-paper-close-reading	DeepJH/doubao-skill-and-info	main	skills/doubao-paper-close-reading
+doubao-academic-researcher	DeepJH/doubao-skill-and-info	main	skills/doubao-academic-researcher
+doubao-academic-polish	DeepJH/doubao-skill-and-info	main	skills/doubao-academic-polish
+# ---- 飞书（同仓库, MIT）----
+lark-doc	DeepJH/doubao-skill-and-info	main	skills/lark-doc
+lark-sheets	DeepJH/doubao-skill-and-info	main	skills/lark-sheets
+lark-base	DeepJH/doubao-skill-and-info	main	skills/lark-base
+lark-ppt	DeepJH/doubao-skill-and-info	main	skills/lark-ppt
+lark-wiki	DeepJH/doubao-skill-and-info	main	skills/lark-wiki

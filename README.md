@@ -34,10 +34,12 @@ node scripts/build-index.js                 # 生成技能注册表
 
 ## 内置技能
 
-- **专家团（12 组）**：投资大师、AI 内容创作、MVP 开发、法律咨询、财税合规、视频生成、SEO 内容、HR 运营、销售战役、研究助理、设计工程、发票核验。
-- **单体技能（17 个）**：docx / pdf / pptx / xlsx、frontend-design、webapp-testing、canvas-design、brand-guidelines、doc-coauthoring、internal-comms、skill-creator、claude-api、mcp-builder、slack-gif-creator、theme-factory、web-artifacts-builder、algorithmic-art（来自官方 [anthropics/skills](https://github.com/anthropics/skills)）。
+- **专家团（44 组）**：投资分析（投资大师、A股、交易、超级合伙人等）、内容创作（AI 内容、视频、短视频拆解、配音脚本等）、开发（MVP、架构、软件公司等）、法律/财税、营销/SEO、HR/销售、研究/教育、设计、数据分析、职业发展/健康/家庭等——全部来自 [WorkBuddySkillGroups](https://github.com/darker2016/workbuddy-skill-groups)。
+- **单体技能（54 个）**：
+  - 官方 [anthropics/skills](https://github.com/anthropics/skills)：docx / pdf / pptx / xlsx、frontend-design、webapp-testing、canvas-design、brand-guidelines 等 17 个（MIT）。
+  - [DeepJH/doubao-skill-and-info](https://github.com/DeepJH/doubao-skill-and-info)：豆包技能 37 个（新媒体/小说写作、数据分析、营销、合同、财报、选股、学术润色等）+ 飞书协作 5 个（doc/sheets/base/ppt/wiki）（MIT）。
 
-完整技能清单见 `scripts/skills-manifest.txt` 与 `scripts/singles-manifest.txt`。
+完整技能清单见 `scripts/skills-manifest.txt` 与 `scripts/singles-manifest.txt`（后者为多仓库格式：`id<TAB>仓库<TAB>分支<TAB>路径`）。
 
 ## 文档
 
@@ -52,7 +54,7 @@ node scripts/build-index.js                 # 生成技能注册表
 ## 致谢与版权
 
 - 专家团技能内容来自 [WorkBuddySkillGroups](https://github.com/darker2016/workbuddy-skill-groups)，版权归第三方作者所有。
-- 单体技能来自 [anthropics/skills](https://github.com/anthropics/skills)（MIT，各技能目录自带 LICENSE）。
+- 单体技能来自 [anthropics/skills](https://github.com/anthropics/skills)（MIT）与 [DeepJH/doubao-skill-and-info](https://github.com/DeepJH/doubao-skill-and-info)（MIT，豆包/飞书技能，版权归原作者）。
 - 本扩展代码为 MIT 协议，详见 [LICENSE](LICENSE)。
 - 本扩展与 DeepSeek 官方无任何关联，Deepseek 为其公司商标。
 

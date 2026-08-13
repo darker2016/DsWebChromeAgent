@@ -82,10 +82,11 @@ skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/* +
 
 ## 技能系统要点
 
-- 技能统一为「目录 + SKILL.md + frontmatter」，注册表用 `type` 区分 `group`（专家团，注入 lead）与 `single`（单体，注入自身）。
-- **注入内容 = 引导模板 + 技能正文**：`DSWA.GUIDE`（constants.js）按 `type` 选模板——group 强调主理人调度职责，single 强调严格按定义执行。
+- 技能统一为「目录 + SKILL.md + frontmatter」，注册表用 `type` 区分 `group`（专家团，注入主理人 + 全部成员）与 `single`（单体，注入自身）。
+- **注入内容 = 引导模板 + 技能正文**：`DSWA.GUIDE`（constants.js）按 `type` 选模板——group 用「我将使用下面的…专家团…」+ 主理人 + 各成员定义 + 等待任务；single 强调严格按定义执行。
 - **用户技能**：`src/shared/user-skills.js`，options 上传单个 .md / 文件夹 → `chrome.storage['dswa:user-skills']` → 运行时合并（`source:'user'`）。
-- 精选子集：专家团 12 组（见 `scripts/skills-manifest.txt`）、单体技能 17 个（见 `scripts/singles-manifest.txt`）。
+- 内置：专家团 44 组（见 `scripts/skills-manifest.txt`，全量 WorkBuddySkillGroups）、单体技能 54 个（见 `scripts/singles-manifest.txt`，多仓库格式 `id<TAB>repo<TAB>ref<TAB>path`，来源 anthropics/skills + DeepJH/doubao-skill-and-info，均 MIT）。
+- **许可红线**：接入新技能来源前必须确认可再分发许可（MIT/Apache 等）；GitHub 上无 LICENSE 的 WorkBuddy/豆包技能集合**不得打包**。
 - 每次同步后必须 `node scripts/build-index.js` 重新生成 `skills/index.json`。
 - 分类映射在 `scripts/categories.json`；版权归因见 `docs/release.md`。
 
@@ -95,4 +96,4 @@ skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/* +
 
 ## 当前版本
 
-`0.2.0` — 技能引导包装 + 用户上传技能 + 多站点/手动唤醒（内置专家团 12 + 单体 17）。
+`0.3.0` — 多站点（含 Gemini / Kimi 新域名）+ 专家团 44 组 + 单体技能 54 个（含豆包/飞书 MIT 技能）。
