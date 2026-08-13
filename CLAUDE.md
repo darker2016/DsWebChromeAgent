@@ -83,7 +83,7 @@ skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/* +
 ## 技能系统要点
 
 - 技能统一为「目录 + SKILL.md + frontmatter」，注册表用 `type` 区分 `group`（专家团，注入主理人 + 全部成员）与 `single`（单体，注入自身）。
-- **注入内容 = 引导模板 + 技能正文**：`DSWA.GUIDE`（constants.js）按 `type` 选模板——group 用「我将使用下面的…专家团…」+ 主理人 + 各成员定义 + 等待任务；single 强调严格按定义执行。
+- **注入内容 = 引导模板 + 技能正文**：`DSWA.GUIDE`（constants.js）按 `type` 选模板——group 用「我将使用下面的…专家团…」+ 主理人 + 各成员定义 + 等待任务；single 强调严格按定义执行。两者都含**运行环境说明**：网页对话无工具/脚本/子代理，AI 忽略技能定义里的相关指令、在对话内扮演完成。
 - **用户技能**：`src/shared/user-skills.js`，options 上传单个 .md / 文件夹 → `chrome.storage['dswa:user-skills']` → 运行时合并（`source:'user'`）。
 - 内置：专家团 44 组（见 `scripts/skills-manifest.txt`，全量 WorkBuddySkillGroups）、单体技能 54 个（见 `scripts/singles-manifest.txt`，多仓库格式 `id<TAB>repo<TAB>ref<TAB>path`，来源 anthropics/skills + DeepJH/doubao-skill-and-info，均 MIT）。
 - **许可红线**：接入新技能来源前必须确认可再分发许可（MIT/Apache 等）；GitHub 上无 LICENSE 的 WorkBuddy/豆包技能集合**不得打包**。
