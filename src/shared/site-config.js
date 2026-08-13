@@ -17,7 +17,7 @@ DSWA.SITES = [
   },
   {
     id: 'kimi', name: 'Kimi',
-    hostPatterns: ['kimi.moonshot.cn'],
+    hostPatterns: ['kimi.com', 'kimi.moonshot.cn'],
     kind: 'textarea',
     selectors: ['textarea', '[contenteditable="true"]'],
   },
@@ -32,6 +32,12 @@ DSWA.SITES = [
     hostPatterns: ['chatgpt.com'],
     kind: 'contenteditable',
     selectors: ['#prompt-textarea', '[contenteditable="true"][role="textbox"]'],
+  },
+  {
+    id: 'gemini', name: 'Gemini',
+    hostPatterns: ['gemini.google.com'],
+    kind: 'contenteditable',
+    selectors: ['rich-textarea div[contenteditable="true"]', '[contenteditable="true"][role="textbox"]'],
   },
   // 其他国内大厂（best-effort，通用 textarea/富文本检测，需真机验证后登记到 docs/site-adapters.md）
   {

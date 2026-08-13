@@ -1,5 +1,6 @@
-# 专家团（group）精选清单：一行一个 WorkBuddySkillGroups 目录名
+# 专家团（group）清单：一行一个 WorkBuddySkillGroups 目录名
 # 修改此清单后运行：bash scripts/sync-skills.sh && node scripts/build-index.js
+# 已排除：content-samples（示例目录）、skillscreator（Python CLI 工具，非技能组）
 investment-masters-skills
 ai-content-creator-skills
 mvp-dev-skills
@@ -12,3 +13,35 @@ sales-battle-skills
 gpt-researcher-skills
 design-engine-skills
 invoice-verify-skills
+a-share-skills
+academic-journal-selector-skills
+ai-data-copilot-skills
+aicoding-architecture-expert-skills
+career-dev-skills
+citongshuopro-skills
+content-distribution-skills
+content-monetization-skills
+engineering-assurance-skills
+enterprise-legal-skills
+family-advisor-skills
+health-coach-skills
+huashu-data-pro-skills
+humanize-ppt-skills
+ket-prep-skills
+makers-skills
+marketing-campaign-skills
+ncre-exam-skills
+opc-team-skills
+open-spec-doc-skills
+product-strategy-skills
+promo-creator-skills
+smb-team-skills
+social-engagement-skills
+software-company-skills
+software-workshop
+stock-partner-skills
+super-partner-skills
+trading-agent-skills
+video-dissection-skills
+voiceover-script-skills
+worldcup-lottery-skills

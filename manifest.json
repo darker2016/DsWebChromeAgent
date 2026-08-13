@@ -19,8 +19,12 @@
       "matches": [
         "https://chat.deepseek.com/*",
         "https://*.moonshot.cn/*",
+        "https://kimi.com/*",
+        "https://*.kimi.com/*",
         "https://*.doubao.com/*",
         "https://*.chatgpt.com/*",
+        "https://gemini.google.com/*",
+        "https://*.gemini.google.com/*",
         "https://tongyi.aliyun.com/*",
         "https://*.tongyi.aliyun.com/*",
         "https://qianwen.aliyun.com/*",
