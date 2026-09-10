@@ -1,0 +1,10 @@
+{
+  "extensionName": {
+    "message": "Deepseek Web Agent",
+    "description": "The name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Inject 90+ multi-agent expert teams & skills into DeepSeek, ChatGPT, Kimi, Doubao, Gemini and other AI chat web apps.",
+    "description": "The description of the extension."
+  }
+}

@@ -21,6 +21,7 @@ rm -f "$OUTPUT_DIR/$ZIP_NAME"
 echo "==> 正在生成 ZIP 文件: dist/$ZIP_NAME..."
 zip -r -q "$OUTPUT_DIR/$ZIP_NAME" \
   manifest.json \
+  _locales/ \
   LICENSE \
   README.md \
   README_EN.md \
