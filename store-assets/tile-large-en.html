@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    body {
+      width: 1400px;
+      height: 560px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0B132B 0%, #1C2541 50%, #0F172A 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 80px;
+      color: #fff;
+      position: relative;
+    }
+    .ambient-glow-1 {
+      position: absolute;
+      top: -100px;
+      left: 100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(67, 97, 238, 0.35) 0%, rgba(67, 97, 238, 0) 70%);
+      border-radius: 50%;
+    }
+    .ambient-glow-2 {
+      position: absolute;
+      bottom: -150px;
+      right: 200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, rgba(56, 189, 248, 0) 70%);
+      border-radius: 50%;
+    }
+    .left-content {
+      max-width: 720px;
+      z-index: 2;
+    }
+    .top-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #93C5FD;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 46px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+      background: linear-gradient(90deg, #FFFFFF 0%, #E2E8F0 50%, #93C5FD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p.subtitle {
+      font-size: 20px;
+      color: #94A3B8;
+      line-height: 1.5;
+      margin-bottom: 36px;
+    }
+    .badges-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .badge-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(12px);
+    }
+    .badge-card .num {
+      font-size: 20px;
+      font-weight: 700;
+      color: #38BDF8;
+    }
+    .badge-card .txt {
+      font-size: 14px;
+      color: #CBD5E1;
+    }
+    
+    .right-preview {
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .hero-icon {
+      width: 170px;
+      height: 170px;
+      border-radius: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(79, 117, 254, 0.4);
+      margin-bottom: 24px;
+    }
+    .supported-platforms {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 14px 24px;
+      display: flex;
+      gap: 16px;
+      color: #94A3B8;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .highlight-platform {
+      color: #38BDF8;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <div class="left-content">
+    <div class="top-pill">🚀 Chrome & Edge Multi-Agent Extension</div>
+    <h1>Deepseek Web Agent</h1>
+    <p class="subtitle">Instantly inject 90+ expert teams & specialized skills into web AI chats. Zero API cost, turning ordinary chats into multi-role collaborative workspaces!</p>
+    
+    <div class="badges-row">
+      <div class="badge-card">
+        <span class="num">44 Groups</span>
+        <span class="txt">Multi-Agent Teams</span>
+      </div>
+      <div class="badge-card">
+        <span class="num">54 Skills</span>
+        <span class="txt">Productivity Skills</span>
+      </div>
+      <div class="badge-card">
+        <span class="num">100% Free</span>
+        <span class="txt">Zero API Key Needed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-preview">
+    <img src="icon-300.png" class="hero-icon" alt="Logo">
+    <div class="supported-platforms">
+      <span class="highlight-platform">DeepSeek</span> · 
+      <span class="highlight-platform">ChatGPT</span> · 
+      <span>Kimi</span> · 
+      <span>Doubao</span> · 
+      <span>Gemini</span> · 
+      <span>Qwen</span>
+    </div>
+  </div>
+</body>
+</html>
