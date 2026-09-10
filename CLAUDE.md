@@ -5,7 +5,7 @@
 浏览器扩展（Chrome MV3），在多个 AI 对话站点（Deepseek / Kimi / 豆包 / ChatGPT / 通义 / 智谱 / 元宝 / 文心，未支持站点可手动唤醒）右下角注入「技能」浮动按钮。用户在面板中选择一个**技能**——**专家团**（多角色协作 skill 组）、**单体技能**（单个 SKILL.md）或**用户自定义**——扩展把对应 `SKILL.md` 的**引导提示词**（引导模板 + 技能正文）**注入聊天输入框**，让对话 AI 扮演专家主理人。
 
 - **本地路径**：`/Users/darker/Documents/cursor_projects/DsBrowserHelper`
-- **GitHub**：https://github.com/darker2016/DeepseekWebAgent
+- **GitHub**：https://github.com/darker2016/DsWebChromeAgent（亦对应 https://github.com/darker2016/DeepseekWebAgent）
 - **技能来源**：专家团 ← 本地 `WorkBuddySkillGroups`；单体技能 ← GitHub `anthropics/skills` 等开源收集；用户技能 ← 浏览器上传（chrome.storage）
 
 ## 核心协作规则（必须遵守）

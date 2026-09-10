@@ -4,7 +4,7 @@
 
 ## 1. 目标仓库
 
-- 仓库：https://github.com/darker2016/DeepseekWebAgent
+- 仓库：https://github.com/darker2016/DsWebChromeAgent（镜像/旧名：https://github.com/darker2016/DeepseekWebAgent）
 - 本地目录：`/Users/darker/Documents/cursor_projects/DsBrowserHelper`
 - 主分支：`main`
 
