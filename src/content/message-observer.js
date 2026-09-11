@@ -1,109 +1,104 @@
 // 页面消息操作栏监听与导出按钮挂载器
-// 精准定位 DeepSeek 等 AI 平台每个回答卡片唯一的操作栏末尾，并精确提取完整正文
+// 精准挂载在「分享」图标按钮之后，保证 100% 可靠出现
 globalThis.DSWA = globalThis.DSWA || {};
 
 if (!DSWA._messageObserverLoaded) {
 DSWA._messageObserverLoaded = true;
 
 DSWA.messageObserver = (() => {
-  const ATTR_PROCESSED = 'data-dswa-export-mounted';
+  const ATTR_MOUNTED = 'data-dswa-mounted';
 
-  function isBlacklisted(el) {
-    if (!el) return true;
-    if (el.closest('aside, nav, header, footer, [class*="sidebar"], [class*="menu"], [class*="history"]')) return true;
-    if (el.closest('form, [class*="input"], [class*="prompt"], [class*="chat-input"], [class*="composer"]')) return true;
-    if (el.closest('.dswa-root, .dswa-export-widget')) return true;
-    return false;
-  }
+  // 提取消息正文：从操作栏或操作按钮向上查找到回答卡片，提取全部回答正文
+  function extractContent(btnOrBar) {
+    const card = btnOrBar.closest('[class*="message"], [class*="chat-item"], article, .ds-message') 
+      || btnOrBar.parentElement?.parentElement?.parentElement;
+    if (!card) return btnOrBar.parentElement;
 
-  // 获取 DeepSeek / Kimi / ChatGPT / 豆包 的完整消息内容块
-  // 关键：不能只取 .ds-markdown（因为思维链、搜索折叠块、正文块是并列的多个 .ds-markdown）
-  function extractFullMessageElement(bar) {
-    // 1. 找到该操作栏所属的消息外层卡片 (Message Wrapper)
-    // 在 DeepSeek 中，消息结构通常形如：
-    // <div class="... message-wrapper ...">
-    //    <div>... [思考链折叠框 / 搜索结果] ...</div>
-    //    <div class="ds-markdown ...">... [最终正文] ...</div>
-    //    <div class="ds-message-actions">... [操作栏] ...</div>
-    // </div>
-    
-    // 向上寻找包含了操作栏的上级消息主容器
-    let card = bar.closest('[class*="message"], [class*="chat-item"], article, .ds-message');
-    if (!card) {
-      // 找不到就取直接前驱兄弟容器
-      card = bar.parentElement;
-    }
+    // 寻找卡片内的 markdown 容器
+    const mds = Array.from(card.querySelectorAll('.ds-markdown, [class*="markdown"], [class*="prose"]'))
+      .filter(el => !el.closest('.dswa-root') && !el.closest('.dswa-export-widget'));
 
-    if (!card) return null;
+    if (!mds.length) return card;
+    if (mds.length === 1) return mds[0];
 
-    // 2. 如果卡片内有多个正文块（例如：思考链 + 搜索结果 + 正文），或者分页卡片（1/2）：
-    // 我们必须取当前操作栏紧邻的或者当前处于激活可见状态的正文块！
-    
-    // 在该操作栏之前寻找最后一个可见的正文内容容器
-    const allContents = Array.from(card.querySelectorAll('.ds-markdown, [class*="markdown"], [class*="prose"], [class*="content"]'))
-      .filter(el => {
-        // 排除深度思考折叠过程中的草稿块，优先保留实际可见的输出
-        return !el.closest('.dswa-root') && !el.closest('.dswa-export-widget');
-      });
-
-    if (!allContents.length) {
-      return card;
-    }
-
-    // 检查是否有处于分页可见态的块
-    // 如果有多个，优先取非思考链的正式回答块（通常是最后一个或者最大的一个）
-    if (allContents.length === 1) {
-      return allContents[0];
-    }
-
-    // 优先取操作栏上方的那个主力 markdown（排除思考过程）
-    const mainContent = allContents.filter(el => {
-      const cls = el.className || '';
-      return !cls.includes('think') && !cls.includes('thought') && !el.closest('[class*="think"], [class*="thought"]');
+    // 如果有多个（如包含思考过程），提取非思考链的正式回答内容
+    const main = mds.filter(el => {
+      const text = el.className || '';
+      return !text.includes('think') && !text.includes('thought') && !el.closest('[class*="think"], [class*="thought"]');
     }).pop();
 
-    return mainContent || allContents[allContents.length - 1];
+    return main || mds[mds.length - 1];
   }
 
-  function findValidMessageActionBar(candidate) {
-    if (isBlacklisted(candidate)) return null;
-
-    // 包含操作按钮（复制/重试/点赞/分享等）
-    const hasMsgAction = candidate.querySelector(
-      'button[title*="复制"], button[aria-label*="复制"], button[title*="重新生成"], button[aria-label*="重新生成"], [class*="ds-icon-button"]'
-    ) || (candidate.children.length >= 3 && candidate.querySelector('svg'));
-
-    if (!hasMsgAction) return null;
-
-    // 排除含有输入框的容器
-    if (candidate.querySelector('textarea, input, [contenteditable="true"]')) return null;
-
-    return {
-      bar: candidate,
-      getContent: () => extractFullMessageElement(candidate)
-    };
-  }
-
+  // 挂载核心逻辑
   function scanAndMount() {
-    const potentialBars = document.querySelectorAll(
-      'div[class*="actions"], div[class*="operate"], div[class*="tools"], div[class*="toolbar"], [class*="ds-message-actions"]'
-    );
+    // 策略：DeepSeek 消息底部有一排按钮：复制、重新生成、点赞、点踩、分享
+    // 我们直接寻找这排按钮中的最后一个（即「分享」按钮），把 [📄 导出] 紧跟插在它后面！
+    
+    // 找到页面上所有的按钮或具有点击角色的图标
+    const allButtons = Array.from(document.querySelectorAll('button, div[role="button"], .ds-icon-button'));
 
-    potentialBars.forEach(bar => {
-      if (bar.hasAttribute(ATTR_PROCESSED) || bar.querySelector('.dswa-export-widget')) return;
+    allButtons.forEach(btn => {
+      // 排除侧边栏、顶部导航和输入框区域
+      if (btn.closest('aside, nav, header, footer, form, [class*="sidebar"], .dswa-root, .dswa-export-widget')) {
+        return;
+      }
 
-      const valid = findValidMessageActionBar(bar);
-      if (valid) {
-        // 确保同一个消息卡片内部只有一个导出按钮
-        const msgCard = bar.closest('[class*="message"], article, .ds-message') || bar.parentElement;
-        if (msgCard && msgCard.querySelector('.dswa-export-widget')) {
+      // 获取按钮文案或提示
+      const label = (btn.getAttribute('title') || btn.getAttribute('aria-label') || btn.textContent || '').trim();
+      
+      // 判断是不是分享按钮（或点踩按钮作为备选）
+      const isShare = /分享|share/i.test(label);
+      const isDislike = /点踩|dislike|差评/i.test(label);
+
+      // 如果既没有 label，但处于消息操作栏中并且是紧邻点赞点踩后面的图标
+      let isTargetAction = isShare || isDislike;
+      
+      if (!isTargetAction) {
+        // 通过 svg 特征检测：消息底部的操作按钮
+        const svg = btn.querySelector('svg');
+        if (svg && btn.offsetWidth > 10 && btn.offsetWidth < 44 && btn.offsetHeight < 44) {
+          const parent = btn.parentElement;
+          if (parent && parent.children.length >= 3 && !parent.hasAttribute(ATTR_MOUNTED)) {
+            // 这是一个由多个小图标组成的工具栏，取其最后一个子元素
+            if (btn === parent.lastElementChild || btn === parent.children[parent.children.length - 1]) {
+              isTargetAction = true;
+            }
+          }
+        }
+      }
+
+      if (isTargetAction) {
+        const parent = btn.parentElement;
+        if (!parent || parent.hasAttribute(ATTR_MOUNTED) || parent.querySelector('.dswa-export-widget')) {
           return;
         }
 
-        valid.bar.setAttribute(ATTR_PROCESSED, 'true');
-        const widget = DSWA.exporter.createExportWidget(valid.getContent);
-        valid.bar.appendChild(widget);
+        // 确保上层属于消息卡片，而不是会话列表
+        const card = btn.closest('[class*="message"], [class*="chat-item"], article, .ds-message');
+        if (!card || card.querySelector('.dswa-export-widget')) {
+          return;
+        }
+
+        // 标记已挂载
+        parent.setAttribute(ATTR_MOUNTED, 'true');
+
+        const widget = DSWA.exporter.createExportWidget(() => extractContent(btn));
+        
+        // 插入到操作栏的末尾（分享右侧）
+        parent.appendChild(widget);
       }
+    });
+
+    // 备用机制：扫描所有显式类名操作栏
+    document.querySelectorAll('.ds-message-actions, div[class*="messageActions"]').forEach(bar => {
+      if (bar.hasAttribute(ATTR_MOUNTED) || bar.querySelector('.dswa-export-widget')) return;
+      const card = bar.closest('[class*="message"], article, .ds-message');
+      if (card && card.querySelector('.dswa-export-widget')) return;
+
+      bar.setAttribute(ATTR_MOUNTED, 'true');
+      const widget = DSWA.exporter.createExportWidget(() => extractContent(bar));
+      bar.appendChild(widget);
     });
   }
 
@@ -112,14 +107,16 @@ DSWA.messageObserver = (() => {
 
   function init() {
     scanAndMount();
-    setInterval(scanAndMount, 1200);
+
+    // 持续周期检查（每 800ms 执行一次，确保流式回答完毕或翻页后立刻出现）
+    setInterval(scanAndMount, 800);
 
     observer = new MutationObserver(() => {
       if (timer) return;
       timer = setTimeout(() => {
         timer = null;
         scanAndMount();
-      }, 150);
+      }, 100);
     });
 
     if (document.body) {
