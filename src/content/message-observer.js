@@ -8,74 +8,89 @@ DSWA._messageObserverLoaded = true;
 DSWA.messageObserver = (() => {
   const ATTR_MOUNTED = 'data-dswa-mounted';
 
-  // 提取消息主力正文
+  // 提取完整的回答正文内容（关键修复：抓取正文区域的所有文本段落，绝不遗漏）
   function extractContent(bar) {
-    // 向上查找消息主卡片
-    let card = bar.closest('.ds-markdown, [class*="message"], [class*="chat-item"], article') 
-      || bar.parentElement?.parentElement;
-    if (!card) return bar.parentElement;
+    // 1. 寻找该工具栏上方的整个内容区域
+    // 在 DeepSeek 中，工具栏通常与正文同级或紧随正文容器其后
+    let parent = bar.parentElement;
+    let mainContainer = null;
 
-    // 寻找其中的所有 markdown 节点
-    const mds = Array.from(card.querySelectorAll('.ds-markdown, [class*="markdown"], [class*="prose"]'))
+    // 向上查找包含全部正文的回答卡片容器（通常为包含很多子元素的祖先容器）
+    for (let i = 0; i < 5 && parent; i++) {
+      if (parent.querySelectorAll('.ds-markdown, [class*="markdown"]').length > 0) {
+        mainContainer = parent;
+        break;
+      }
+      parent = parent.parentElement;
+    }
+
+    if (!mainContainer) {
+      mainContainer = bar.closest('[class*="message"], article') || bar.parentElement;
+    }
+
+    // 2. 获取该容器内部所有的 markdown 渲染块
+    const allMds = Array.from(mainContainer.querySelectorAll('.ds-markdown, [class*="markdown"]'))
       .filter(el => !el.closest('.dswa-root') && !el.closest('.dswa-export-widget'));
 
-    if (!mds.length) return card;
-    if (mds.length === 1) return mds[0];
+    // 3. 过滤掉思考链：DeepSeek 的思考过程往往在特定的思考组件中
+    const contentMds = allMds.filter(el => {
+      // 如果是在可折叠的思考块内部
+      if (el.closest('[class*="think"], [class*="thought"], [class*="reasoning"]')) {
+        return false;
+      }
+      return true;
+    });
 
-    // 排除思考过程节点，取正式输出正文
-    const main = mds.filter(el => {
-      const cls = el.className || '';
-      return !cls.includes('think') && !cls.includes('thought') && !el.closest('[class*="think"], [class*="thought"]');
-    }).pop();
+    // 4. 如果找到了正文 markdown 块
+    if (contentMds.length > 0) {
+      // 如果正文被拆分成了多个同级块，创建一个虚拟容器把它们全部包容起来
+      if (contentMds.length === 1) {
+        return contentMds[0];
+      }
+      const fragment = document.createElement('div');
+      contentMds.forEach(node => {
+        fragment.appendChild(node.cloneNode(true));
+      });
+      return fragment;
+    }
 
-    return main || mds[mds.length - 1];
+    // 兜底：取非工具栏的前驱兄弟节点
+    let prev = bar.previousElementSibling;
+    while (prev) {
+      if (!prev.classList.contains('dswa-export-widget') && prev.textContent.trim().length > 20) {
+        return prev;
+      }
+      prev = prev.previousElementSibling;
+    }
+
+    return mainContainer;
   }
 
   function scanAndMount() {
-    // 关键特征 1：直接通过真实 DOM 类名精准定位操作栏！
-    // DeepSeek 的操作栏特征：包含 ds-flex，子元素由多个带 ds-button 且含 svg 的按钮组成
-    const actionBars = Array.from(document.querySelectorAll(
-      '.ds-flex, [class*="actions"], [class*="actionGroup"], [class*="operationBar"], message-actions'
-    )).filter(el => {
-      // 排除扩展自身
-      if (el.closest('.dswa-root') || el.closest('.dswa-export-widget')) return false;
-      // 排除侧边栏、历史会话列表、导航栏
-      if (el.closest('aside, nav, header, [class*="sidebar"], [class*="history"]')) return false;
-      // 排除输入框底部工具栏（包含网络搜索、深度思考开关的区域）
-      if (el.closest('form, [class*="chat-input"], [class*="composer"]')) return false;
-
-      // 验证子元素：必须包含 3 个以上的操作按钮或 SVG 图标（复制、重试、点赞、点踩、分享）
-      const buttons = el.querySelectorAll('.ds-button, button, div[role="button"]');
-      if (buttons.length >= 3 && el.querySelector('svg')) {
-        // 且这些按钮尺寸是小图标（xs 尺寸）
-        return true;
-      }
-      return false;
-    });
-
-    actionBars.forEach(bar => {
-      if (bar.hasAttribute(ATTR_MOUNTED) || bar.querySelector('.dswa-export-widget')) return;
-
-      // 标记已挂载
-      bar.setAttribute(ATTR_MOUNTED, 'true');
-
-      const widget = DSWA.exporter.createExportWidget(() => extractContent(bar));
-      bar.appendChild(widget);
-    });
-
-    // 关键特征 2：通过「分享」图标的精确 SVG Path 查找操作栏！
-    // 无论类名如何动态混淆，分享图标的 SVG path 形状是独一无二且固定的
+    // 唯一精准锚定：通过「分享」图标唯一的 SVG Path 寻找真正的工具栏！
+    // 彻底摒弃宽泛选择器，避免出现右侧多余的第二个按钮
     const sharePaths = document.querySelectorAll('path[d*="M7.95889 1.52285"], path[d*="M7.95889"]');
+    
     sharePaths.forEach(path => {
       const svg = path.closest('svg');
       if (!svg) return;
-      // 向上找到按钮和工具栏容器
-      const btn = svg.closest('.ds-button, button, div[role="button"]') || svg.parentElement;
-      const bar = btn?.parentElement;
-      if (!bar || bar.hasAttribute(ATTR_MOUNTED) || bar.querySelector('.dswa-export-widget')) return;
-      if (bar.closest('aside, nav, header, form, .dswa-root')) return;
 
+      // 向上找到具有按钮角色的元素（在 DeepSeek 中为 .ds-button 或 role="button"）
+      const btn = svg.closest('.ds-button, [role="button"], button') || svg.parentElement;
+      // 真正的操作栏即该按钮的直接父容器
+      const bar = btn?.parentElement;
+      if (!bar) return;
+
+      // 排除非消息区域
+      if (bar.closest('aside, nav, header, footer, form, [class*="chat-input"], .dswa-root')) return;
+
+      // 如果这个操作栏已经挂载过，绝不重复挂载
+      if (bar.hasAttribute(ATTR_MOUNTED) || bar.querySelector('.dswa-export-widget')) return;
+
+      // 标记当前操作栏已处理
       bar.setAttribute(ATTR_MOUNTED, 'true');
+
+      // 创建完全仿照 DeepSeek 原生图标按钮风格的导出小胶囊
       const widget = DSWA.exporter.createExportWidget(() => extractContent(bar));
       bar.appendChild(widget);
     });
