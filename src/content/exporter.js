@@ -1,12 +1,121 @@
-// 消息与整场对话导出模块：支持 Markdown (.md)、Word (.doc / .docx 兼容格式)、PDF (.pdf 打印与保存)
-// 适配 DeepSeek、Kimi、豆包、ChatGPT、Gemini 等多个主流平台。
+// HTML 转 Markdown 轻量解析器（专为 AI 回答设计：支持标题、加粗、代码块、列表、表格、引用、链接等）
 globalThis.DSWA = globalThis.DSWA || {};
 
-if (!DSWA._exporterLoaded) {
-DSWA._exporterLoaded = true;
+DSWA.htmlToMarkdown = (() => {
+  function convert(node) {
+    if (!node) return '';
+    if (node.nodeType === Node.TEXT_NODE) {
+      return node.nodeValue;
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) {
+      return '';
+    }
 
+    const tag = node.tagName.toLowerCase();
+
+    // 过滤无用节点或插件注入的 DOM
+    if (tag === 'style' || tag === 'script' || tag === 'noscript' || tag === 'svg') {
+      return '';
+    }
+    if (node.classList && (node.classList.contains('dswa-export-btn') || node.classList.contains('dswa-export-menu') || node.classList.contains('dswa-export-widget'))) {
+      return '';
+    }
+
+    // 处理代码块 pre / code
+    if (tag === 'pre') {
+      const codeEl = node.querySelector('code');
+      const lang = codeEl ? (codeEl.className.match(/(?:lang|language)-(\w+)/) || [])[1] || '' : '';
+      const text = (codeEl || node).textContent.replace(/\r\n/g, '\n');
+      return `\n\`\`\`${lang}\n${text.trim()}\n\`\`\`\n\n`;
+    }
+    if (tag === 'code') {
+      if (node.closest('pre')) return node.textContent;
+      return `\`${node.textContent}\``;
+    }
+
+    // 递归转换子节点
+    let inner = '';
+    for (const child of node.childNodes) {
+      inner += convert(child);
+    }
+
+    switch (tag) {
+      case 'h1': return `\n# ${inner.trim()}\n\n`;
+      case 'h2': return `\n## ${inner.trim()}\n\n`;
+      case 'h3': return `\n### ${inner.trim()}\n\n`;
+      case 'h4': return `\n#### ${inner.trim()}\n\n`;
+      case 'h5': return `\n##### ${inner.trim()}\n\n`;
+      case 'h6': return `\n###### ${inner.trim()}\n\n`;
+      case 'p': return `\n\n${inner.trim()}\n\n`;
+      case 'strong':
+      case 'b': return `**${inner.trim()}**`;
+      case 'em':
+      case 'i': return `*${inner.trim()}*`;
+      case 'del':
+      case 's': return `~~${inner.trim()}~~`;
+      case 'hr': return `\n\n---\n\n`;
+      case 'blockquote': {
+        const lines = inner.trim().split('\n').map(l => `> ${l}`).join('\n');
+        return `\n\n${lines}\n\n`;
+      }
+      case 'a': {
+        const href = node.getAttribute('href');
+        return href ? `[${inner.trim()}](${href})` : inner;
+      }
+      case 'ul': {
+        return `\n${inner.trim()}\n\n`;
+      }
+      case 'ol': {
+        return `\n${inner.trim()}\n\n`;
+      }
+      case 'li': {
+        const parent = node.parentElement;
+        const isOl = parent && parent.tagName.toLowerCase() === 'ol';
+        const prefix = isOl ? '1. ' : '- ';
+        return `${prefix}${inner.trim()}\n`;
+      }
+      case 'br': return `\n`;
+      case 'table': {
+        return tableToMarkdown(node);
+      }
+      default:
+        return inner;
+    }
+  }
+
+  function tableToMarkdown(table) {
+    const rows = Array.from(table.querySelectorAll('tr'));
+    if (!rows.length) return '';
+    let md = '\n\n';
+    rows.forEach((tr, rowIndex) => {
+      const cells = Array.from(tr.querySelectorAll('th, td'));
+      const line = '| ' + cells.map(c => c.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ')).join(' | ') + ' |';
+      md += line + '\n';
+      if (rowIndex === 0) {
+        const sep = '| ' + cells.map(() => '---').join(' | ') + ' |';
+        md += sep + '\n';
+      }
+    });
+    return md + '\n';
+  }
+
+  function cleanMarkdown(text) {
+    return text
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  }
+
+  return {
+    fromElement(el) {
+      if (!el) return '';
+      // 如果 el 是一个包含了多个段落或正文容器的数组或节点，递归解析
+      return cleanMarkdown(convert(el));
+    },
+  };
+})();
+
+// 消息与整场对话导出模块：支持 Markdown (.md)、Word (.doc / .docx 兼容格式)、PDF (.pdf 打印与保存)
 DSWA.exporter = (() => {
-  // 文件下载辅助
   function downloadBlob(blob, filename) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -26,14 +135,12 @@ DSWA.exporter = (() => {
     return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}`;
   }
 
-  // 1. 导出 Markdown
   function exportMarkdown(title, text) {
     const filename = `${title.replace(/[\/\\?%*:|"<>]/g, '_')}_${getTimestamp()}.md`;
     const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
     downloadBlob(blob, filename);
   }
 
-  // 2. 导出 Word (基于标准 HTML-Word MIME 协议，Word / WPS 完美原生排版渲染)
   function exportWord(title, htmlContent) {
     const filename = `${title.replace(/[\/\\?%*:|"<>]/g, '_')}_${getTimestamp()}.doc`;
     const docHtml = `
@@ -69,7 +176,6 @@ DSWA.exporter = (() => {
     downloadBlob(blob, filename);
   }
 
-  // 3. 导出 PDF (利用浏览器高质量 Print 渲染引擎，支持分页与矢量字体)
   function exportPdf(title, htmlContent) {
     const iframe = document.createElement('iframe');
     iframe.style.position = 'fixed';
@@ -119,15 +225,13 @@ DSWA.exporter = (() => {
     }, 400);
   }
 
-  // 提取清洗后的 HTML（去除多余按钮、微标等）
   function getCleanHtml(el) {
+    if (!el) return '';
     const clone = el.cloneNode(true);
-    // 移除插件自身添加的元素及各种无用控制图标
-    clone.querySelectorAll('.dswa-export-btn, .dswa-export-menu, button, svg, .ds-icon-button').forEach(n => n.remove());
+    clone.querySelectorAll('.dswa-export-btn, .dswa-export-menu, .dswa-export-widget, button, svg, .ds-icon-button').forEach(n => n.remove());
     return clone.innerHTML;
   }
 
-  // 为单条消息生成「导出」下拉按钮
   function createExportWidget(getContentElement) {
     const container = document.createElement('div');
     container.className = 'dswa-export-widget';
@@ -135,7 +239,7 @@ DSWA.exporter = (() => {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'dswa-export-btn';
-    btn.title = '导出为文档 (Markdown / Word / PDF)';
+    btn.title = '导出该回答为文档 (Markdown / Word / PDF)';
     btn.innerHTML = `
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -195,7 +299,6 @@ DSWA.exporter = (() => {
         return;
       }
 
-      // 获取对话标题或当前页面标题
       const pageTitle = document.title.split(/[-_|]/)[0].trim() || 'AI对话回答';
       const cleanHtml = getCleanHtml(contentEl);
 
@@ -222,5 +325,3 @@ DSWA.exporter = (() => {
     createExportWidget,
   };
 })();
-
-}
