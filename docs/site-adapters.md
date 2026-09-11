@@ -82,6 +82,14 @@ document.execCommand('insertText', false, text);
 - 该页使用 `generic` 适配器（`kind:'any'`，扫 textarea + contenteditable）。
 - 持久化的 host 存在 `chrome.storage['dswa:sites']`，onInstalled / onStartup 时重注册。
 
+## 7. 文档导出能力（Markdown / Word / PDF）
+
+为了解决 DeepSeek、Kimi、豆包等平台不提供原生导出文档的问题，扩展在每个回答气泡的操作栏自动注入「导出」菜单：
+
+- **单条回答导出**：在消息底部的 `[复制] [点赞] [分享]` 工具栏右侧追加 `[📄 导出 ▾]`，点击可选择导出该条回答为 `.md`、`.doc`、`.pdf`。
+- **整场对话导出**：在浮动面板的底部操作栏追加 `[📥 导出整场对话]`，一键将多轮问答汇总导出为结构化长文档。
+- **跨平台消息选择器**：`src/content/message-observer.js` 支持 MutationObserver 自动监听动态回答完成，并挂载导出部件。
+
 ## 6. 真机验证记录
 
 | 日期 | 站点 | 输入框选择器 | 注入方式 | 结果 |

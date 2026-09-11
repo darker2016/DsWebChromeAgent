@@ -4,7 +4,7 @@
     "description": "扩展名称"
   },
   "extensionDescription": {
-    "message": "在 AI 对话页面（DeepSeek / Kimi / 豆包 / ChatGPT / Gemini 等）中一键选择并注入 90+ 专家团与专业技能，让对话 AI 扮演专家主理人与协作团队。",
+    "message": "在 DeepSeek、ChatGPT、Kimi、豆包等 AI 对话页面一键注入 90+ 专家团与专业技能，并支持对话一键导出为 Markdown/Word/PDF 文档。",
     "description": "扩展描述"
   }
 }

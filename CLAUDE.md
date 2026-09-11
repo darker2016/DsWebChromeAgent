@@ -96,4 +96,4 @@ skills/index.json（注册表，build-index.js 生成）+ groups/* + singles/* +
 
 ## 当前版本
 
-`0.3.0` — 多站点（含 Gemini / Kimi 新域名）+ 专家团 44 组 + 单体技能 54 个（含豆包/飞书 MIT 技能）。
+`0.4.0` — 多站点原生适配 + 专家团 44 组 + 单体技能 54 个 + 消息/整场对话一键导出为 Markdown/Word/PDF。

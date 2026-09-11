@@ -42,7 +42,8 @@ DSWA.picker = (() => {
           <div class="dswa-loading">加载技能清单…</div>
         </div>
         <div class="dswa-footer">
-          <button class="dswa-add" type="button">＋ 上传技能（打开设置）</button>
+          <button class="dswa-export-all-btn" type="button" title="导出当前整个对话">📥 导出整场对话</button>
+          <button class="dswa-add" type="button">＋ 上传技能</button>
         </div>
       </div>
       <div class="dswa-toast" hidden></div>
@@ -58,6 +59,9 @@ DSWA.picker = (() => {
     root.querySelector('.dswa-add').addEventListener('click', () => {
       // 内容脚本不能直接 openOptionsPage，经 background 打开设置页
       chrome.runtime.sendMessage({ type: 'DSWA_OPEN_OPTIONS' }).catch(() => {});
+    });
+    root.querySelector('.dswa-export-all-btn').addEventListener('click', () => {
+      exportEntireChat();
     });
     root.querySelector('.dswa-search').addEventListener('input', e => {
       state.search = e.target.value.trim().toLowerCase();
@@ -214,6 +218,53 @@ DSWA.picker = (() => {
       }
     } catch (err) {
       showToast('载入失败：' + err.message, false);
+    }
+  }
+
+  // ---------- 导出整场对话 ----------
+
+  function exportEntireChat() {
+    const pageTitle = document.title.split(/[-_|]/)[0].trim() || 'AI整场对话导出';
+    
+    // 收集页面上的所有对话块
+    const msgBlocks = Array.from(document.querySelectorAll(
+      '.ds-message, [class*="messageItem"], [class*="message-block"], [data-message-author-role], model-response, article'
+    ));
+
+    if (!msgBlocks.length) {
+      showToast('未检测到对话消息记录', false);
+      return;
+    }
+
+    let combinedMarkdown = `# ${pageTitle}\n\n*导出时间: ${new Date().toLocaleString()}*\n\n---\n\n`;
+    let combinedHtml = `<h1>${pageTitle}</h1><p style="color:#666;font-size:12px;">导出时间: ${new Date().toLocaleString()}</p><hr/>`;
+
+    msgBlocks.forEach((block, idx) => {
+      // 判断是否是用户还是助手
+      const isUser = block.matches('[data-message-author-role="user"], [class*="user"], [class*="User"]');
+      const roleName = isUser ? 'User / 提问' : 'Assistant / AI 回答';
+      
+      const contentEl = block.querySelector('.ds-markdown, [class*="markdown"], .prose') || block;
+      const md = DSWA.htmlToMarkdown.fromElement(contentEl);
+      const cleanHtml = DSWA.exporter.getCleanHtml(contentEl);
+
+      if (md.trim()) {
+        combinedMarkdown += `### 👤 ${roleName}\n\n${md}\n\n---\n\n`;
+        combinedHtml += `<div style="margin-bottom:20px;"><h3>👤 ${roleName}</h3><div style="margin-top:8px;">${cleanHtml}</div></div><hr style="border:0;border-top:1px dashed #ccc;margin:20px 0;"/>`;
+      }
+    });
+
+    // 默认提供导出格式选择弹层
+    const format = prompt('请选择整场对话导出的格式：\n1: Markdown (.md)\n2: Word (.doc)\n3: PDF (.pdf)', '1');
+    if (format === '1') {
+      DSWA.exporter.exportMarkdown(pageTitle + '_整场对话', combinedMarkdown);
+      showToast('已导出整场对话为 Markdown');
+    } else if (format === '2') {
+      DSWA.exporter.exportWord(pageTitle + '_整场对话', combinedHtml);
+      showToast('已导出整场对话为 Word');
+    } else if (format === '3') {
+      DSWA.exporter.exportPdf(pageTitle + '_整场对话', combinedHtml);
+      showToast('正在调起 PDF 打印…');
     }
   }
 

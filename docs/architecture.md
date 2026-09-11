@@ -31,7 +31,7 @@ Chrome MV3 扩展：在多个 AI 对话站点（Deepseek / Kimi / 豆包 / ChatG
 | 模块 | 职责 | 关键文件 |
 |------|------|---------|
 | `manifest.json` | MV3 声明：权限、content_scripts（多站点 matches）、background、popup、options、web_accessible_resources | `manifest.json` |
-| content script | 页面侧 UI + 注入。直读技能索引（失败转 background）、合并用户技能、渲染选择器、把提示词写进输入框 | `src/content/skill-picker.js`、`src/content/content.css` |
+| content script | 页面侧 UI + 注入 + 导出：直读技能索引、合并用户技能、渲染选择器、提示词注入输入框、挂载单条消息与整场对话导出器 | `src/content/skill-picker.js`、`src/content/exporter.js`、`src/content/message-observer.js`、`src/content/content.css` |
 | 站点适配 | 站点注册表 + 适配器工厂：按 host 选配置（textarea / contenteditable / 通用） | `src/shared/site-config.js`、`src/content/site-adapter.js`（见 docs/site-adapters.md） |
 | shared | 技能索引读取/解析（双路径）、引导模板、用户技能存储与解析、站点注册表、常量 | `src/shared/skill-index.js`、`src/shared/user-skills.js`、`src/shared/site-config.js`、`src/shared/constants.js` |
 | background | 技能数据兜底（DSWA_GET_INDEX / DSWA_GET_SKILL_TEXT）；站点唤醒（DSWA_ENABLE_SITE：executeScript + registerContentScripts 持久化） | `src/background/service-worker.js` |

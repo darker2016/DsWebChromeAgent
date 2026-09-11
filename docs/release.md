@@ -55,6 +55,7 @@ git commit -m "chore: 初始化 DsBrowserHelper（文档体系 + 最小可运行
 
 ## 6. 版本记录
 
+- `0.4.0` — 新增文档导出功能（支持将 DeepSeek、Kimi、豆包、ChatGPT、Gemini 等对话单条回答或整场对话导出为 Markdown、Word 和 PDF）；支持 i18n 多语言与商店发布资产。
 - `0.3.0` — 多站点新增 Gemini / Kimi（kimi.com）；专家团扩到 44 组；单体技能扩到 54 个（新增豆包/飞书 MIT 技能，多仓库同步）。
 - `0.2.0` — 技能引导包装（group/single 两套引导模板）；用户上传技能（单个 .md / 文件夹）；多站点适配（Kimi/豆包/ChatGPT/通义/智谱/元宝/文心）+ 任意页面手动唤醒。
 - `0.1.0` — 文档体系 + 最小可运行骨架：专家团 12 组 + 单体技能 17 个；Deepseek 注入链路。

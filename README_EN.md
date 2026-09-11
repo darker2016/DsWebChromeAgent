@@ -50,6 +50,9 @@ The extension automatically formats structured **guidance prompts + skill defini
 - 📁 **Custom User Skills Ecosystem**
   - Easily import custom `.md` skills or multi-role directories in the options page.
   - Safe, local-only storage via `chrome.storage`, seamlessly combined with built-in skills.
+- 📥 **Document Export for Single Messages & Entire Chats (Markdown / Word / PDF)**
+  - Auto-injects an `[Export ▾]` dropdown menu next to the native action bar (e.g. next to Share in DeepSeek).
+  - Clean client-side export to formatted `.md`, editable `.doc`, and paginated vector `.pdf`.
 - 🌐 **Seamless Multi-Platform Support & Manual Activation**
   - Native DOM adapters for major AI platforms (handling contenteditable rich-text and textareas).
   - Universal fallback adapter: click **"Enable extension on this page"** in the extension popup on any unsupported AI web app.

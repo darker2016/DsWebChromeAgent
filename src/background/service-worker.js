@@ -11,6 +11,8 @@ const CONTENT_JS = [
   'src/shared/skill-index.js',
   'src/content/site-adapter.js',
   'src/content/skill-picker.js',
+  'src/content/exporter.js',
+  'src/content/message-observer.js',
 ];
 
 let indexCache = null;

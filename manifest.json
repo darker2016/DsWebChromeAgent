@@ -3,7 +3,7 @@
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
   "default_locale": "zh_CN",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "minimum_chrome_version": "110",
   "permissions": ["storage", "unlimitedStorage", "scripting", "tabs"],
   "host_permissions": ["<all_urls>"],
@@ -56,7 +56,9 @@
         "src/shared/user-skills.js",
         "src/shared/skill-index.js",
         "src/content/site-adapter.js",
-        "src/content/skill-picker.js"
+        "src/content/skill-picker.js",
+        "src/content/exporter.js",
+        "src/content/message-observer.js"
       ],
       "run_at": "document_idle"
     }
