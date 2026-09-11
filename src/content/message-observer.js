@@ -1,5 +1,5 @@
 // 页面消息操作栏监听与导出按钮挂载器
-// 精准适配 DeepSeek、Kimi、豆包、ChatGPT、Gemini 等各大平台的消息工具栏
+// 精准定位 DeepSeek 等 AI 平台每个回答卡片唯一的操作栏末尾
 globalThis.DSWA = globalThis.DSWA || {};
 
 if (!DSWA._messageObserverLoaded) {
@@ -8,86 +8,98 @@ DSWA._messageObserverLoaded = true;
 DSWA.messageObserver = (() => {
   const ATTR_PROCESSED = 'data-dswa-export-mounted';
 
-  // 寻找图标按钮的通用操作栏容器
-  function findActionBarFromButton(btn) {
-    // 向上寻找包含多个按钮的容器
-    let cur = btn.parentElement;
-    for (let i = 0; i < 4 && cur; i++) {
-      // 检查当前容器内的按钮或具有可点击行为的子元素数量
-      const btns = cur.querySelectorAll('button, div[role="button"], svg');
-      if (btns.length >= 2 && btns.length <= 15) {
-        // 判断样式是否是水平排列的工具栏
-        const display = window.getComputedStyle(cur).display;
-        if (display.includes('flex') || display.includes('grid') || cur.children.length >= 2) {
-          return cur;
-        }
-      }
-      cur = cur.parentElement;
+  // 严格过滤：必须是消息正文内部或紧随其后的操作栏，坚决排除侧边栏、输入框内部、用户头像栏等
+  function isBlacklisted(el) {
+    if (!el) return true;
+    // 排除侧边栏 (侧边栏会话列表、左下角个人信息)
+    if (el.closest('aside, nav, header, footer, [class*="sidebar"], [class*="menu"], [class*="history"]')) {
+      return true;
     }
-    return btn.parentElement;
+    // 排除输入框区域及输入框底部工具栏（深度思考、网络搜索、发送按钮那一排）
+    if (el.closest('form, [class*="input"], [class*="prompt"], [class*="chat-input"], [class*="composer"]')) {
+      return true;
+    }
+    // 排除插件自身
+    if (el.closest('.dswa-root, .dswa-export-widget')) {
+      return true;
+    }
+    return false;
   }
 
-  function getContentFromActionBar(bar) {
-    // 1. 优先在祖先消息卡片中查找包含实际内容的容器
-    const card = bar.closest('[class*="message"], [class*="chat-item"], article, .ds-message, [data-message-author-role]')
-      || bar.parentElement?.parentElement;
-    if (!card) return bar.parentElement;
+  // 检查是否是正规的消息操作栏（必须包含复制/重试/点赞等专属动作，并且其上方存在 markdown 消息主体）
+  function findValidMessageActionBar(candidate) {
+    if (isBlacklisted(candidate)) return null;
 
-    // 2. 寻找 card 内部包含 markdown/prose/文本 的节点
-    const content = card.querySelector('.ds-markdown, [class*="markdown"], [class*="prose"], [class*="content"], [class*="segment"]');
-    return content || card;
+    // 检查此容器或其直接子树中是否包含复制或重新生成操作
+    const hasMsgAction = candidate.querySelector(
+      'button[title*="复制"], button[aria-label*="复制"], button[title*="重新生成"], button[aria-label*="重新生成"], [class*="ds-icon-button"]'
+    ) || (candidate.children.length >= 3 && candidate.querySelector('svg'));
+
+    if (!hasMsgAction) return null;
+
+    // 向上找到对应的消息容器卡片
+    const msgCard = candidate.closest('[class*="message"], [class*="chat-item"], article, .ds-message, [data-message-author-role="assistant"]');
+    // 如果找不到上层的消息卡片，说明不是对话消息区
+    if (!msgCard || isBlacklisted(msgCard)) return null;
+
+    // 必须能找到正文容器（如 markdown、prose、content）
+    const content = msgCard.querySelector('.ds-markdown, [class*="markdown"], [class*="prose"], [class*="content"]');
+    if (!content) return null;
+
+    return {
+      bar: candidate,
+      getContent: () => content
+    };
   }
 
   function scanAndMount() {
-    // 1. 特征一：找页面所有带 svg 图标的常用操作按钮（复制、重新生成、点赞、点踩、分享）
-    // DeepSeek 的操作按钮通常包含 ds-icon-button 或内嵌特定 path 的 svg
-    const candidateButtons = Array.from(document.querySelectorAll(
-      'button, div[role="button"], [class*="icon-button"], [class*="action-button"]'
-    )).filter(el => {
-      // 排除扩展自身的元素
-      if (el.closest('.dswa-root') || el.closest('.dswa-export-widget')) return false;
-      // 包含复制/分享/重试等文案或提示
-      const text = (el.getAttribute('title') || el.getAttribute('aria-label') || el.textContent || '').trim();
-      if (/复制|分享|点赞|点踩|重新生成|copy|share|like|regenerate/i.test(text)) return true;
-      // 或者包含 svg 图标且尺寸较小（典型的消息底部按钮）
-      const svg = el.querySelector('svg');
-      if (svg && el.offsetWidth > 0 && el.offsetWidth < 48 && el.offsetHeight < 48) {
-        // 且它不是顶部的导航按钮
-        if (!el.closest('header') && !el.closest('nav')) return true;
+    // 1. 查找所有可能的消息块
+    // DeepSeek 结构中，回答操作栏一般为包含多个小图标的 flex 容器
+    const potentialBars = document.querySelectorAll(
+      'div[class*="actions"], div[class*="operate"], div[class*="tools"], div[class*="toolbar"], [class*="ds-message-actions"]'
+    );
+
+    potentialBars.forEach(bar => {
+      // 避免重复注入同一个容器
+      if (bar.hasAttribute(ATTR_PROCESSED) || bar.querySelector('.dswa-export-widget')) return;
+
+      const valid = findValidMessageActionBar(bar);
+      if (valid) {
+        // 再次确认该消息卡片内是否已经挂载过了导出按钮（防止双分页 1/2 时两个 bar 导致重复）
+        const msgCard = bar.closest('[class*="message"], article, .ds-message');
+        if (msgCard && msgCard.querySelector('.dswa-export-widget')) {
+          return;
+        }
+
+        valid.bar.setAttribute(ATTR_PROCESSED, 'true');
+        const widget = DSWA.exporter.createExportWidget(valid.getContent);
+        // 挂载到操作栏的最右侧（末尾）
+        valid.bar.appendChild(widget);
       }
-      return false;
     });
 
-    candidateButtons.forEach(btn => {
-      const bar = findActionBarFromButton(btn);
-      if (!bar || bar.hasAttribute(ATTR_PROCESSED) || !bar.isConnected) return;
-      if (bar.closest('.dswa-root') || bar.closest('.dswa-export-widget')) return;
+    // 2. 备用准确定位：直接找「分享」或「点踩」按钮的父容器（DeepSeek 紧随其后）
+    const shareOrDislikeButtons = document.querySelectorAll('button, div[role="button"]');
+    shareOrDislikeButtons.forEach(btn => {
+      if (isBlacklisted(btn)) return;
 
-      // 标记防止重复挂载
-      bar.setAttribute(ATTR_PROCESSED, 'true');
-      
-      const widget = DSWA.exporter.createExportWidget(() => getContentFromActionBar(bar));
-      bar.appendChild(widget);
-    });
+      const title = (btn.getAttribute('title') || btn.getAttribute('aria-label') || '').trim();
+      // 匹配点踩、分享或 copy
+      const isTarget = /分享|点踩|dislike|share/i.test(title);
+      if (isTarget) {
+        const bar = btn.parentElement;
+        if (!bar || isBlacklisted(bar)) return;
+        if (bar.hasAttribute(ATTR_PROCESSED) || bar.querySelector('.dswa-export-widget')) return;
 
-    // 2. 特征二：已知类名的操作栏直接定位
-    const knownBarSelectors = [
-      '.ds-message-actions',
-      'div[class*="messageActions"]',
-      'div[class*="actions-container"]',
-      'div[class*="actionGroup"]',
-      'div[class*="operationBar"]',
-      'div[class*="message-actions"]',
-      'message-actions'
-    ];
+        const msgCard = bar.closest('[class*="message"], article, .ds-message');
+        if (!msgCard || msgCard.querySelector('.dswa-export-widget')) return;
 
-    document.querySelectorAll(knownBarSelectors.join(',')).forEach(bar => {
-      if (bar.hasAttribute(ATTR_PROCESSED) || !bar.isConnected) return;
-      if (bar.closest('.dswa-root') || bar.closest('.dswa-export-widget')) return;
-
-      bar.setAttribute(ATTR_PROCESSED, 'true');
-      const widget = DSWA.exporter.createExportWidget(() => getContentFromActionBar(bar));
-      bar.appendChild(widget);
+        const content = msgCard.querySelector('.ds-markdown, [class*="markdown"], [class*="prose"]') || msgCard;
+        
+        bar.setAttribute(ATTR_PROCESSED, 'true');
+        const widget = DSWA.exporter.createExportWidget(() => content);
+        bar.appendChild(widget);
+      }
     });
   }
 
@@ -97,10 +109,10 @@ DSWA.messageObserver = (() => {
   function init() {
     scanAndMount();
 
-    // 周期扫描（兜底单页应用与流式输出）
+    // 周期扫描
     setInterval(scanAndMount, 1500);
 
-    // MutationObserver 监听实时渲染
+    // MutationObserver 监听
     observer = new MutationObserver(() => {
       if (timer) return;
       timer = setTimeout(() => {
