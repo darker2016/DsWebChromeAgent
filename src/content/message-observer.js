@@ -1,5 +1,5 @@
 // 页面消息操作栏监听与导出按钮挂载器
-// 适配 DeepSeek、Kimi、豆包、ChatGPT、Gemini 等各大平台的消息工具栏
+// 精准适配 DeepSeek、Kimi、豆包、ChatGPT、Gemini 等各大平台的消息工具栏
 globalThis.DSWA = globalThis.DSWA || {};
 
 if (!DSWA._messageObserverLoaded) {
@@ -8,179 +8,85 @@ DSWA._messageObserverLoaded = true;
 DSWA.messageObserver = (() => {
   const ATTR_PROCESSED = 'data-dswa-export-mounted';
 
-  // 针对各站点的选择器配置
-  // actionSelectors: 消息底部的操作按钮容器（如包含复制、分享、点赞的那一行）
-  // contentFinder: 如何从该操作栏向上或向内找到消息的正文内容容器
-  const SITE_RULES = [
-    {
-      id: 'deepseek',
-      matches: ['chat.deepseek.com'],
-      // DeepSeek 操作栏特征：带有多个操作按钮的弹性布局底栏
-      actionSelectors: [
-        '.ds-message-actions',
-        'div[class*="messageActions"]',
-        'div[class*="actions-container"]',
-        // 兼容通用模式：找复制图标按钮的父容器
-        '.ds-icon-button'
-      ],
-      findActionBar(root) {
-        // DeepSeek 底部通常有一组图标按钮
-        return root.querySelector('.ds-message-actions, div[class*="messageActions"], div[class*="actions"]');
-      },
-      getContent(actionEl) {
-        // 寻找父级消息气泡或上一级消息文本块
-        const msgWrapper = actionEl.closest('.ds-markdown, div[class*="messageContent"], div[class*="chat-message"]')
-          || actionEl.parentElement?.closest('div[class*="message"]')
-          || actionEl.closest('.ds-message')
-          || actionEl.parentElement;
-        if (!msgWrapper) return null;
-        // 优先取 markdown 渲染容器
-        return msgWrapper.querySelector('.ds-markdown, [class*="markdown"], .prose') || msgWrapper;
+  // 寻找图标按钮的通用操作栏容器
+  function findActionBarFromButton(btn) {
+    // 向上寻找包含多个按钮的容器
+    let cur = btn.parentElement;
+    for (let i = 0; i < 4 && cur; i++) {
+      // 检查当前容器内的按钮或具有可点击行为的子元素数量
+      const btns = cur.querySelectorAll('button, div[role="button"], svg');
+      if (btns.length >= 2 && btns.length <= 15) {
+        // 判断样式是否是水平排列的工具栏
+        const display = window.getComputedStyle(cur).display;
+        if (display.includes('flex') || display.includes('grid') || cur.children.length >= 2) {
+          return cur;
+        }
       }
-    },
-    {
-      id: 'kimi',
-      matches: ['kimi.com', 'kimi.moonshot.cn'],
-      findActionBar(root) {
-        return root.querySelector('div[class*="operationBar"], div[class*="actionGroup"], div[class*="toolBar"]');
-      },
-      getContent(actionEl) {
-        const parent = actionEl.closest('div[class*="messageItem"], div[class*="chatItem"]');
-        return parent ? (parent.querySelector('div[class*="segment"], div[class*="markdown"]') || parent) : actionEl.parentElement;
-      }
-    },
-    {
-      id: 'doubao',
-      matches: ['doubao.com'],
-      findActionBar(root) {
-        return root.querySelector('div[class*="message-actions"], div[class*="action-bar"]');
-      },
-      getContent(actionEl) {
-        const parent = actionEl.closest('div[class*="message-block"], div[class*="container"]');
-        return parent ? (parent.querySelector('div[class*="markdown"], div[class*="content"]') || parent) : actionEl.parentElement;
-      }
-    },
-    {
-      id: 'chatgpt',
-      matches: ['chatgpt.com', 'chat.openai.com'],
-      findActionBar(root) {
-        return root.querySelector('div[class*="text-gray-400"][class*="flex"], div[class*="agent-turn"] div[class*="justify-start"]');
-      },
-      getContent(actionEl) {
-        const turn = actionEl.closest('[data-message-author-role="assistant"]') || actionEl.closest('article');
-        return turn ? (turn.querySelector('.markdown') || turn) : actionEl.parentElement;
-      }
-    },
-    {
-      id: 'gemini',
-      matches: ['gemini.google.com'],
-      findActionBar(root) {
-        return root.querySelector('message-actions, div[class*="actions-container"]');
-      },
-      getContent(actionEl) {
-        const host = actionEl.closest('model-response') || actionEl.closest('div[class*="response-container"]');
-        return host ? (host.querySelector('message-content, .markdown') || host) : actionEl.parentElement;
-      }
-    {
-      id: 'tongyi',
-      matches: ['tongyi.aliyun.com', 'qianwen.aliyun.com'],
-      findActionBar(root) {
-        return root.querySelector('div[class*="actions"], div[class*="tools"], div[class*="operate"]');
-      },
-      getContent(actionEl) {
-        const parent = actionEl.closest('div[class*="item"], div[class*="message"]');
-        return parent ? (parent.querySelector('div[class*="content"], div[class*="markdown"]') || parent) : actionEl.parentElement;
-      }
-    },
-    {
-      id: 'chatglm',
-      matches: ['chatglm.cn'],
-      findActionBar(root) {
-        return root.querySelector('div[class*="actions"], div[class*="tools"]');
-      },
-      getContent(actionEl) {
-        const parent = actionEl.closest('div[class*="message"]');
-        return parent ? (parent.querySelector('div[class*="content"], div[class*="markdown"]') || parent) : actionEl.parentElement;
-      }
-    },
-    {
-      id: 'yuanbao',
-      matches: ['yuanbao.tencent.com'],
-      findActionBar(root) {
-        return root.querySelector('div[class*="action"], div[class*="footer"]');
-      },
-      getContent(actionEl) {
-        const parent = actionEl.closest('div[class*="message"], div[class*="chat-item"]');
-        return parent ? (parent.querySelector('div[class*="content"], div[class*="markdown"]') || parent) : actionEl.parentElement;
-      }
-    },
-    {
-      id: 'yiyan',
-      matches: ['yiyan.baidu.com'],
-      findActionBar(root) {
-        return root.querySelector('div[class*="tools"], div[class*="actions"]');
-      },
-      getContent(actionEl) {
-        const parent = actionEl.closest('div[class*="message"], div[class*="item"]');
-        return parent ? (parent.querySelector('div[class*="content"], div[class*="markdown"]') || parent) : actionEl.parentElement;
-      }
+      cur = cur.parentElement;
     }
-  ];
-
-  function getRule() {
-    const host = location.hostname.toLowerCase();
-    for (const rule of SITE_RULES) {
-      for (const m of rule.matches) {
-        if (host === m || host.endsWith('.' + m)) return rule;
-      }
-    }
-    return null;
+    return btn.parentElement;
   }
 
-  // 通用备用方案：扫描页面上所有的复制/分享操作条
-  function findGenericActionBars() {
-    const bars = [];
-    // 很多站点复制按钮都带 title="复制" 或 svg
-    const buttons = document.querySelectorAll('button[title*="复制"], button[aria-label*="复制"], button[title*="Copy"], button[aria-label*="Copy"]');
-    buttons.forEach(btn => {
-      const bar = btn.parentElement;
-      if (bar && !bar.hasAttribute(ATTR_PROCESSED) && bar.children.length >= 2) {
-        bars.push({
-          bar,
-          getContent: () => {
-            const card = bar.closest('[class*="message"], article, [class*="chat-item"]') || bar.parentElement;
-            return card ? (card.querySelector('[class*="markdown"], .prose, pre') || card) : card;
-          }
-        });
-      }
-    });
-    return bars;
+  function getContentFromActionBar(bar) {
+    // 1. 优先在祖先消息卡片中查找包含实际内容的容器
+    const card = bar.closest('[class*="message"], [class*="chat-item"], article, .ds-message, [data-message-author-role]')
+      || bar.parentElement?.parentElement;
+    if (!card) return bar.parentElement;
+
+    // 2. 寻找 card 内部包含 markdown/prose/文本 的节点
+    const content = card.querySelector('.ds-markdown, [class*="markdown"], [class*="prose"], [class*="content"], [class*="segment"]');
+    return content || card;
   }
 
   function scanAndMount() {
-    const rule = getRule();
-    if (rule) {
-      // 专用规则扫描
-      const candidates = document.querySelectorAll(rule.actionSelectors ? rule.actionSelectors.join(',') : 'div');
-      candidates.forEach(el => {
-        const bar = rule.findActionBar ? rule.findActionBar(el) || el : el;
-        if (!bar || bar.hasAttribute(ATTR_PROCESSED) || !bar.isConnected) return;
-        
-        // 确保这是一个操作条（包含多个子元素按钮）
-        if (bar.children.length < 2 && !bar.querySelector('button, svg')) return;
+    // 1. 特征一：找页面所有带 svg 图标的常用操作按钮（复制、重新生成、点赞、点踩、分享）
+    // DeepSeek 的操作按钮通常包含 ds-icon-button 或内嵌特定 path 的 svg
+    const candidateButtons = Array.from(document.querySelectorAll(
+      'button, div[role="button"], [class*="icon-button"], [class*="action-button"]'
+    )).filter(el => {
+      // 排除扩展自身的元素
+      if (el.closest('.dswa-root') || el.closest('.dswa-export-widget')) return false;
+      // 包含复制/分享/重试等文案或提示
+      const text = (el.getAttribute('title') || el.getAttribute('aria-label') || el.textContent || '').trim();
+      if (/复制|分享|点赞|点踩|重新生成|copy|share|like|regenerate/i.test(text)) return true;
+      // 或者包含 svg 图标且尺寸较小（典型的消息底部按钮）
+      const svg = el.querySelector('svg');
+      if (svg && el.offsetWidth > 0 && el.offsetWidth < 48 && el.offsetHeight < 48) {
+        // 且它不是顶部的导航按钮
+        if (!el.closest('header') && !el.closest('nav')) return true;
+      }
+      return false;
+    });
 
-        bar.setAttribute(ATTR_PROCESSED, 'true');
-        const widget = DSWA.exporter.createExportWidget(() => rule.getContent(bar));
-        bar.appendChild(widget);
-      });
-    }
+    candidateButtons.forEach(btn => {
+      const bar = findActionBarFromButton(btn);
+      if (!bar || bar.hasAttribute(ATTR_PROCESSED) || !bar.isConnected) return;
+      if (bar.closest('.dswa-root') || bar.closest('.dswa-export-widget')) return;
 
-    // 兜底扫描
-    const genericList = findGenericActionBars();
-    genericList.forEach(({ bar, getContent }) => {
-      if (bar.hasAttribute(ATTR_PROCESSED)) return;
+      // 标记防止重复挂载
       bar.setAttribute(ATTR_PROCESSED, 'true');
-      const widget = DSWA.exporter.createExportWidget(getContent);
+      
+      const widget = DSWA.exporter.createExportWidget(() => getContentFromActionBar(bar));
+      bar.appendChild(widget);
+    });
+
+    // 2. 特征二：已知类名的操作栏直接定位
+    const knownBarSelectors = [
+      '.ds-message-actions',
+      'div[class*="messageActions"]',
+      'div[class*="actions-container"]',
+      'div[class*="actionGroup"]',
+      'div[class*="operationBar"]',
+      'div[class*="message-actions"]',
+      'message-actions'
+    ];
+
+    document.querySelectorAll(knownBarSelectors.join(',')).forEach(bar => {
+      if (bar.hasAttribute(ATTR_PROCESSED) || !bar.isConnected) return;
+      if (bar.closest('.dswa-root') || bar.closest('.dswa-export-widget')) return;
+
+      bar.setAttribute(ATTR_PROCESSED, 'true');
+      const widget = DSWA.exporter.createExportWidget(() => getContentFromActionBar(bar));
       bar.appendChild(widget);
     });
   }
@@ -189,28 +95,31 @@ DSWA.messageObserver = (() => {
   let timer = null;
 
   function init() {
-    // 初始扫描
     scanAndMount();
 
-    // 监听动态新增的消息 DOM
+    // 周期扫描（兜底单页应用与流式输出）
+    setInterval(scanAndMount, 1500);
+
+    // MutationObserver 监听实时渲染
     observer = new MutationObserver(() => {
       if (timer) return;
       timer = setTimeout(() => {
         timer = null;
         scanAndMount();
-      }, 300);
+      }, 200);
     });
 
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
+    if (document.body) {
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    }
   }
 
   return { init, scanAndMount };
 })();
 
-// DOM 就绪后启动监听
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', DSWA.messageObserver.init);
 } else {
